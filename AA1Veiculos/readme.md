@@ -49,5 +49,6 @@ A troca de idioma pode ser feita via ícones na interface.
 ## Como rodar o projeto
 
 1. Clone o repositório;
-2. Compile e execute com Maven: 'mvn spring-boot:run'
-3. Acesse: http://localhost:8080
+2. Compile e execute com Maven:
+    `mvn spring-boot:run`
+4. Acesse: http://localhost:8080
