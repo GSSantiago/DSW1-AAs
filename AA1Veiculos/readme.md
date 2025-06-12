@@ -1,6 +1,6 @@
 # Sistema de Compra e Venda de Veículos
 
-Sistema web desenvolvido como atividade da disciplina **Desenvolvimento de Software Web1**. 
+Sistema web desenvolvido como atividade da disciplina Desenvolvimento de Software Web1. 
 O sistema permite que clientes façam propostas para veículos cadastrados por lojas, com autenticação, envio de e-mails, internacionalização e validações completas.
 
 ## Equipe
