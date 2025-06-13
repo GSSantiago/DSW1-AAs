@@ -49,6 +49,9 @@ A troca de idioma pode ser feita via ícones na interface.
 ## Como rodar o projeto
 
 1. Clone o repositório;
-2. Compile e execute com Maven:
+2. No PowerShell: para rodar com os dados corretos do banco de dados, atribua às variáveis MYSQL_USER e MYSQL_PASSWORD sua senha e usuário corretos:
+- $env:MYSQL_USER="root"
+- $env:MYSQL_PASSWORD="sua_senha"
+4. Compile e execute com Maven:
     `mvn spring-boot:run`
-4. Acesse: http://localhost:8080
+5. Acesse: http://localhost:8080
