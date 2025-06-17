@@ -4,17 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import br.ufscar.dc.dsw.AA1Veiculos.domain.Cliente;
-import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IClienteService;
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Veiculo;
+import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IVeiculoService;
 
 @Component
-public class ClienteConversor implements Converter<String, Cliente> {
+public class VeiculoConversor implements Converter<String, Veiculo> {
 
     @Autowired
-    private IClienteService service;
+    private IVeiculoService service;
 
     @Override
-    public Cliente convert(String text) {
+    public Veiculo convert(String text) {
         if (text.isEmpty()) {
             return null;
         }

@@ -1,5 +1,16 @@
 package br.ufscar.dc.dsw.AA1Veiculos.service.spec;
 
-public class ILojaService {
-    
+import java.util.List;
+
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
+
+public interface ILojaService {
+
+    Loja buscarPorId(Long id);
+
+    List<Loja> buscarTodas();
+
+    void salvar(Loja loja);
+
+    void excluir(Long id);
 }
