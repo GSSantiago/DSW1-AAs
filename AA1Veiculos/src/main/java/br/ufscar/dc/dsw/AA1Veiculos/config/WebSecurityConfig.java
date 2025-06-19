@@ -17,11 +17,11 @@ public class WebSecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
+	@Bean 
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests((authz) -> authz
-						.requestMatchers("/error", "/login/**", "/home/**","/js/**").permitAll()
+						.requestMatchers("/error", "/login/**", "/home/**","/veiculos","/veiculos/listar" ,"/js/**").permitAll()
 						.requestMatchers("/css/**", "/image/**", "/webjars/**").permitAll()
 						.anyRequest().authenticated())
 				.formLogin((form) -> form
