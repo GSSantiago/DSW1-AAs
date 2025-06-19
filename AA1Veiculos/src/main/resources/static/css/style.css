@@ -1,0 +1,73 @@
+.primary-bg {
+    background-color: #6D4C41 !important;
+	a {
+    color: #fff !important;
+	}
+}
+.primary-border {
+    border-color: #6D4C41 !important;
+}
+
+.secondary-bg {
+    background-color: #FF7043 !important;
+    color: #fff !important;
+}
+
+.tertiary-bg {
+	background-color: #7e5f55 !important;
+	color: #fff !important;
+}
+.secondary-border {
+    border-color: #FF7043 !important;
+}
+
+.success-bg {
+    background-color: #2E7D32 !important;
+    color: #fff !important;
+}
+
+.warning-bg {
+    background-color: #F9A825 !important;
+    color: #212121 !important;
+}
+
+.light-bg {
+    background-color: #FAFAFA !important;
+    color: #212121 !important;
+}
+
+.dark-text {
+    color: #37474F !important;
+}
+
+.btn-primary-custom {
+    background-color: #6D4C41 !important;
+    border-color: #6D4C41 !important;
+    color: #fff !important;
+}
+.btn-primary-custom:hover {
+    background-color: #5D4037 !important;
+    border-color: #5D4037 !important;
+}
+
+.btn-secondary-custom {
+    background-color: #FF7043 !important;
+    border-color: #FF7043 !important;
+    color: #fff !important;
+}
+.btn-secondary-custom:hover {
+    background-color: #F4511E !important;
+    border-color: #F4511E !important;
+}
+
+.card-header-custom {
+    background-color: #6D4C41 !important;
+    color: #fff !important;
+}
+.footer-custom-bg {
+    background-color: #37474F !important;
+    color: #cfd8dc !important;
+}
+.footer-custom-bg a {
+    color: #F9A825 !important;
+}

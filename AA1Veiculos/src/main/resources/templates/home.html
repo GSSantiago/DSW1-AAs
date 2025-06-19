@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>DC - Home</title>
+	
+	<!-- Bootstrap core CSS -->
+	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/webjars/open-iconic/font/css/open-iconic-bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+	<header th:replace="~{fragments/header::cabecalho}">
+		<div>header</div>
+	</header>
+    <main role="main" class="container my-3">
+        <div class="jumbotron text-center tertiary-bg">
+            <h1 class="display-4">Bem-vindo ao DC - Departamento de Carros</h1>
+            <p class="lead">Sistema para compra e venda de veículos</p>
+            <hr class="my-4">
+            <p>Use o menu acima para navegar pelas funcionalidades de clientes, lojas e veículos.</p>
+            <a class="btn btn-secondary-custom btn-lg" th:href="@{/veiculos}" role="button">Ver todos os veículos</a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Clientes</h2>
+                <p>Cadastre e gerencie clientes. Requer login de administrador.</p>
+                <p><a class="btn btn-secondary-custom" th:href="@{/clientes}" role="button">Acessar »</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>Lojas</h2>
+                <p>Cadastre e gerencie lojas de veículos. Requer login de administrador.</p>
+                <p><a class="btn btn-secondary-custom" th:href="@{/lojas}" role="button">Acessar »</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>Veículos</h2>
+                <p>Visualize todos os veículos disponíveis sem necessidade de login.</p>
+                <p><a class="btn btn-secondary-custom" th:href="@{/veiculos}" role="button">Acessar »</a></p>
+            </div>
+        </div>
+    </main>
+
+	<footer th:replace="~{fragments/footer::rodape}">
+		<div>footer</div>
+	</footer>
+</body>
+</html>
