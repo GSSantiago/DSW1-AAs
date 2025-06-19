@@ -32,7 +32,7 @@ public class LojaService implements ILojaService {
 	
 	@Transactional(readOnly = true)
 	public Loja buscarPorId(Long id) {
-		return dao.findById(id.longValue());
+		return dao.findById(id).orElse(null);
 	}
 
 	@Transactional(readOnly = true)

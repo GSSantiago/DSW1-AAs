@@ -8,6 +8,8 @@ public interface IClienteService {
 
     Cliente buscarPorId(Long id);
 
+    Cliente buscarPorEmail(String email);
+
     List<Cliente> buscarTodos();
 
     void salvar(Cliente cliente);
