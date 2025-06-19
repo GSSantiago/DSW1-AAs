@@ -30,23 +30,28 @@ public class VeiculoController {
 
 	@Autowired
 	private ILojaService lojaService;
+	
+	@GetMapping
+	    public String redirect() {
+	        return "redirect:/veiculos/listar";
+	  }
 
 	@GetMapping("/cadastrar")
 	public String cadastrar(Veiculo veiculo) {
-		return "veiculos/cadastro";
+		return "veiculo/cadastro";
 	}
 
 	@GetMapping("/listar")
 	public String listar(ModelMap model) {
 		model.addAttribute("veiculos", veiculoService.buscarTodos());
-		return "veiculos/lista";
+		return "veiculo/lista";
 	}
 
 	@PostMapping("/salvar")
 	public String salvar(@Valid Veiculo veiculo, BindingResult result, RedirectAttributes attr) {
 
 		if (result.hasErrors()) {
-			return "veiculos/cadastro";
+			return "veiculo/cadastro";
 		}
 
 		veiculoService.salvar(veiculo);
@@ -57,26 +62,26 @@ public class VeiculoController {
 	@GetMapping("/editar/{id}")
 	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
 		model.addAttribute("veiculo", veiculoService.buscarPorId(id));
-		return "veiculos/cadastro";
+		return "veiculo/cadastro";
 	}
 
 	@PostMapping("/editar")
 	public String editar(@Valid Veiculo veiculo, BindingResult result, RedirectAttributes attr) {
 
 		if (result.hasErrors()) {
-			return "veiculos/cadastro";
+			return "veiculo/cadastro";
 		}
 
 		veiculoService.salvar(veiculo);
 		attr.addFlashAttribute("sucess", "veiculo.edit.sucess");
-		return "redirect:/veiculos/listar";
+		return "redirect:/veiculo/listar";
 	}
 
 	@GetMapping("/excluir/{id}")
 	public String excluir(@PathVariable("id") Long id, RedirectAttributes attr) {
 		veiculoService.excluir(id);
 		attr.addFlashAttribute("sucess", "veiculo.delete.sucess");
-		return "redirect:/veiculos/listar";
+		return "redirect:/veiculo/listar";
 	}
 
 	@ModelAttribute("lojas")

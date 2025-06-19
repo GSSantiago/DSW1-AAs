@@ -16,11 +16,10 @@ import jakarta.validation.constraints.Size;
 @Table(name = "Veiculo")
 public class Veiculo extends AbstractEntity<Long> {
     
-	@NotNull(message = "{NotNull.veiculo.cnpj}")
+	@NotNull(message = "{NotNull.veiculo.loja}")
 	@ManyToOne
-	@Column(nullable = false, unique = true, length = 60)
-	@JoinColumn(name = "loja_cnpj")
-	private String CNPJ;
+	@JoinColumn(name = "loja_id")
+	private Loja loja;
 	
 	@NotBlank(message = "{NotBlank.veiculo.placa}")
 	@Size(max = 7)
@@ -31,6 +30,11 @@ public class Veiculo extends AbstractEntity<Long> {
 	@Size(max = 20)
 	@Column(nullable = false, length = 20)
 	private String modelo;
+	
+	@NotBlank
+	@Size(min = 18, max = 18, message = "{Size.editora.CNPJ}")
+	@Column(nullable = false, unique = true, length = 60)
+	private String CNPJ;
 	
 	//[TODO] Adicionar UniqueChassi
 	@NotBlank(message = "{NotNull.veiculo.chassi}")
@@ -53,6 +57,15 @@ public class Veiculo extends AbstractEntity<Long> {
 	private BigDecimal valor;
 	
 	//[TODO] Adicionar fotos do veiculo
+	
+	public Loja getLoja() {
+		return loja;
+	}
+
+	public void setLoja(Loja loja) {
+		this.loja = loja;
+		setCNPJ(loja.getCnpj());
+	}
 	
 	public String getCNPJ() {
 		return CNPJ;
