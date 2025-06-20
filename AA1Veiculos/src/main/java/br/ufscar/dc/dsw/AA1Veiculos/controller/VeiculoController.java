@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Veiculo;
@@ -42,8 +43,12 @@ public class VeiculoController {
 	}
 
 	@GetMapping("/listar")
-	public String listar(ModelMap model) {
-		model.addAttribute("veiculos", veiculoService.buscarTodos());
+	public String listar(@RequestParam String modelo, ModelMap model) {
+		if(modelo.isBlank())
+			model.addAttribute("veiculos", veiculoService.buscarTodos());
+		else
+			model.addAttribute("veiculos", veiculoService.buscarTodosPorModelo(modelo));
+
 		return "veiculo/lista";
 	}
 
@@ -87,5 +92,10 @@ public class VeiculoController {
 	@ModelAttribute("lojas")
 	public List<Loja> listaLojas() {
 		return lojaService.buscarTodas();
+	}
+	
+	@ModelAttribute("modelos")
+	public List<String> listaModelos() {
+		return veiculoService.buscarModelos();
 	}
 }

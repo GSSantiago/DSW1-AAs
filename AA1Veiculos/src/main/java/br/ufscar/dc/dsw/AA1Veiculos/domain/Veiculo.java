@@ -31,13 +31,13 @@ public class Veiculo extends AbstractEntity<Long> {
 	@Column(nullable = false, length = 20)
 	private String modelo;
 	
-	@NotBlank
+	@NotBlank(message = "{NotBlank.veiculo.cnpj}")
 	@Size(min = 18, max = 18, message = "{Size.editora.CNPJ}")
 	@Column(nullable = false, unique = true, length = 60)
 	private String CNPJ;
 	
 	//[TODO] Adicionar UniqueChassi
-	@NotBlank(message = "{NotNull.veiculo.chassi}")
+	@NotBlank(message = "{NotBlank.veiculo.chassi}")
 	@Column(nullable = false, unique = true, length = 17)
 	private String chassi;
 	
@@ -45,7 +45,7 @@ public class Veiculo extends AbstractEntity<Long> {
 	@Column(nullable = false, length = 5)
 	private Integer ano;
 	
-	@NotBlank(message = "{NotNull.veiculo.quilometragem}")
+	@NotBlank(message = "{NotBlank.veiculo.quilometragem}")
 	@Column(nullable = false, length = 5)
 	private String quilometragem;
 	
