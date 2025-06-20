@@ -9,6 +9,8 @@ public interface IVeiculoService {
 
     Veiculo buscarPorId(Long id);
     
+    Veiculo buscarPorChassi(String chassi);
+    
     List<Veiculo> buscarTodosPorModelo(String modelo);
 
     List<Veiculo> buscarTodos();

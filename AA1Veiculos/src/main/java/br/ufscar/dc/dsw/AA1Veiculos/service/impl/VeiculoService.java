@@ -30,6 +30,11 @@ public class VeiculoService implements IVeiculoService {
 	public Veiculo buscarPorId(Long id) {
 		return dao.findById(id.longValue());
 	}
+	
+	@Transactional(readOnly = true)
+	public Veiculo buscarPorChassi(String chassi) {
+		return dao.findByChassi(chassi);
+	}
 
 	@Transactional(readOnly = true)
 	public List<Veiculo> buscarTodos() {

@@ -75,7 +75,7 @@
 
         <div class="form-group col-md-4">
           <label for="quilometragem" th:text="#{veiculo.quilometragem.label}"></label>
-          <input type="text" id="quilometragem" class="form-control" th:field="*{quilometragem}" 
+          <input type="number" id="quilometragem" class="form-control" th:field="*{quilometragem}" 
                  th:classappend="${#fields.hasErrors('quilometragem')}? 'is-invalid'" />
           <div class="invalid-feedback">
             <span th:errors="*{quilometragem}"></span>

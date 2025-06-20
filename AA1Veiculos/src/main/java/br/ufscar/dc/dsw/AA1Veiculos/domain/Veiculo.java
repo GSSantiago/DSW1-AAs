@@ -2,6 +2,7 @@ package br.ufscar.dc.dsw.AA1Veiculos.domain;
 
 import java.math.BigDecimal;
 
+import br.ufscar.dc.dsw.AA1Veiculos.validation.UniqueChassi;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -32,11 +33,11 @@ public class Veiculo extends AbstractEntity<Long> {
 	private String modelo;
 	
 	@NotBlank(message = "{NotBlank.veiculo.cnpj}")
-	@Size(min = 18, max = 18, message = "{Size.editora.CNPJ}")
-	@Column(nullable = false, unique = true, length = 60)
+	@Size(min = 14, max = 18, message = "{Size.editora.CNPJ}")
+	@Column(nullable = false, length = 60)
 	private String CNPJ;
 	
-	//[TODO] Adicionar UniqueChassi
+	@UniqueChassi
 	@NotBlank(message = "{NotBlank.veiculo.chassi}")
 	@Column(nullable = false, unique = true, length = 17)
 	private String chassi;
@@ -45,9 +46,9 @@ public class Veiculo extends AbstractEntity<Long> {
 	@Column(nullable = false, length = 5)
 	private Integer ano;
 	
-	@NotBlank(message = "{NotBlank.veiculo.quilometragem}")
-	@Column(nullable = false, length = 5)
-	private String quilometragem;
+	@NotNull(message = "{NotNull.veiculo.quilometragem}")
+	@Column(nullable = false, length = 12)
+	private Integer quilometragem;
 	
 	@Column(nullable = false, length = 500)
 	private String descricao;
@@ -63,8 +64,10 @@ public class Veiculo extends AbstractEntity<Long> {
 	}
 
 	public void setLoja(Loja loja) {
-		this.loja = loja;
-		setCNPJ(loja.getCnpj());
+	    this.loja = loja;
+	    if (loja != null) {
+	        this.CNPJ = loja.getCnpj();
+	    }
 	}
 	
 	public String getCNPJ() {
@@ -99,11 +102,11 @@ public class Veiculo extends AbstractEntity<Long> {
 		this.descricao = descricao;
 	}
 
-	public String getQuilometragem() {
+	public Integer getQuilometragem() {
 		return quilometragem;
 	}
 
-	public void setQuilometragem(String quilometragem) {
+	public void setQuilometragem(Integer quilometragem) {
 		this.quilometragem = quilometragem;
 	}
 

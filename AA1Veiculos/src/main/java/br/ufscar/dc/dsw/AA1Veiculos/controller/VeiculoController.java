@@ -46,8 +46,8 @@ public class VeiculoController {
 	}
 
 	@GetMapping("/listar")
-	public String listar(@RequestParam String modelo, ModelMap model) {
-		if(modelo.isBlank())
+	public String listar(@RequestParam(required = false) String modelo, ModelMap model) {
+		if(modelo == null || modelo.isBlank())
 			model.addAttribute("veiculos", veiculoService.buscarTodos());
 		else
 			model.addAttribute("veiculos", veiculoService.buscarTodosPorModelo(modelo));
@@ -66,9 +66,13 @@ public class VeiculoController {
 
 
 	@PostMapping("/salvar")
-	public String salvar(@Valid Veiculo veiculo, BindingResult result, RedirectAttributes attr) {
+	public String salvar(@Valid Veiculo veiculo, BindingResult result, ModelMap model,  RedirectAttributes attr) {
 
 		if (result.hasErrors()) {
+			 System.out.println("Erros de validação encontrados: ");
+			 result.getAllErrors().forEach(error -> System.out.println(error.toString()));
+		      model.addAttribute("lojas", lojaService.buscarTodas());
+
 			return "veiculo/cadastro";
 		}
 
