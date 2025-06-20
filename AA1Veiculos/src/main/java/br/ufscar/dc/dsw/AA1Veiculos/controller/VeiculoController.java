@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Veiculo;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
@@ -51,6 +54,16 @@ public class VeiculoController {
 
 		return "veiculo/lista";
 	}
+
+	@GetMapping("/meus")
+	@PreAuthorize("hasAuthority('LOJA')")
+	public String listarVeiculosDaLoja(ModelMap model, @AuthenticationPrincipal UserDetails user) {
+		Loja loja = lojaService.buscarPorEmail(user.getUsername());
+		List<Veiculo> veiculos = veiculoService.buscarTodosPorLoja(loja);
+		model.addAttribute("veiculos", veiculos);
+		return "veiculo/listaLoja"; 
+	}
+
 
 	@PostMapping("/salvar")
 	public String salvar(@Valid Veiculo veiculo, BindingResult result, RedirectAttributes attr) {

@@ -32,13 +32,13 @@ public class ClienteController {
     @GetMapping("/cadastro")
     public String cadastro(Model model) {
         model.addAttribute("cliente", new Cliente());
-        return "cliente/form";
+        return "cliente/cadastro";
     }
 
     @PostMapping("/salvar")
     public String salvar(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result) {
         if (result.hasErrors()) {
-            return "cliente/form";
+            return "cliente/cadastro";
         }
         service.salvar(cliente);
         return "redirect:/clientes/lista";
@@ -48,7 +48,7 @@ public class ClienteController {
     public String preEditar(@PathVariable("id") Long id, Model model) {
         Cliente cliente = service.buscarPorId(id);
         model.addAttribute("cliente", cliente);
-        return "cliente/form";
+        return "cliente/cadastro";
     }
 
     @GetMapping("/remover/{id}")

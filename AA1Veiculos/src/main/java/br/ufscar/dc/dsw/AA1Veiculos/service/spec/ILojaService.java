@@ -12,6 +12,8 @@ public interface ILojaService {
 
     List<Loja> buscarTodas();
 
+    Loja buscarPorEmail(String email);
+
     void salvar(Loja loja);
 
     void excluir(Long id);

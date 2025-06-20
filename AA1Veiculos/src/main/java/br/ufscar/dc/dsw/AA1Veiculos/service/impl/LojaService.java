@@ -39,4 +39,10 @@ public class LojaService implements ILojaService {
 	public List<Loja> buscarTodas() {
 		return dao.findAll();
 	}
+
+	@Transactional(readOnly = true)
+	public Loja buscarPorEmail(String email) {
+		return dao.findByEmail(email);
+	}
+
 }

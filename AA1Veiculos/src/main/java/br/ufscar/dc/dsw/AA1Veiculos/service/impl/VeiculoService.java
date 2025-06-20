@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufscar.dc.dsw.AA1Veiculos.dao.IVeiculoDAO;
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Veiculo;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IVeiculoService;
 
@@ -40,6 +41,11 @@ public class VeiculoService implements IVeiculoService {
 		return dao.findAllByModelo(modelo);
 	}
 	
+	@Transactional(readOnly = true)
+	public List<Veiculo> buscarTodosPorLoja(Loja loja) {
+		return dao.findAllByLoja(loja);
+	}
+
 	@Transactional(readOnly = true)
     public List<String> buscarModelos() {
 		return dao.findDistinctModelos();

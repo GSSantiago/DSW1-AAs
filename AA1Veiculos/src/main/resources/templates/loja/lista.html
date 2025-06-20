@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{loja.lista.titulo}">Lista de Lojas</title>
+</head>
+<body>
+    <h1 th:text="#{loja.lista.titulo}">Lista de Lojas</h1>
+
+    <a th:href="@{/lojas/cadastro}" th:text="#{loja.lista.nova}">Nova Loja</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th th:text="#{loja.nome}">Nome</th>
+                <th th:text="#{loja.email}">Email</th>
+                <th th:text="#{loja.cnpj}">CNPJ</th>
+                <th th:text="#{loja.descricao}">Descrição</th>
+                <th th:text="#{acoes}">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="loja : ${lojas}">
+                <td th:text="${loja.nome}">Nome</td>
+                <td th:text="${loja.email}">Email</td>
+                <td th:text="${loja.cnpj}">CNPJ</td>
+                <td th:text="${loja.descricao}">Descrição</td>
+                <td>
+                    <a th:href="@{|/lojas/editar/${loja.id}|}" th:text="#{editar}">Editar</a> |
+                    <a th:href="@{|/lojas/remover/${loja.id}|}" th:text="#{remover}">Remover</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

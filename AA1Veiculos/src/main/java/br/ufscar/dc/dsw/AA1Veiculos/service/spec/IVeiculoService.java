@@ -2,6 +2,7 @@ package br.ufscar.dc.dsw.AA1Veiculos.service.spec;
 
 import java.util.List;
 
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Veiculo;
 
 public interface IVeiculoService {
@@ -13,6 +14,8 @@ public interface IVeiculoService {
     List<Veiculo> buscarTodos();
     
     List<String> buscarModelos();
+
+    List<Veiculo> buscarTodosPorLoja(Loja loja);
 
     void salvar(Veiculo veiculo);
 

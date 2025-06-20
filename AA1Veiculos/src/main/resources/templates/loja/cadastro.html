@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{loja.form.titulo}">Cadastro de Loja</title>
+</head>
+<body>
+    <h1 th:text="#{loja.form.titulo}">Cadastro de Loja</h1>
+
+    <form th:action="@{/lojas/salvar}" th:object="${loja}" method="post">
+        <div>
+            <label th:for="nome" th:text="#{loja.nome}">Nome:</label>
+            <input type="text" id="nome" th:field="*{nome}" />
+            <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+        </div>
+
+        <div>
+            <label th:for="email" th:text="#{loja.email}">Email:</label>
+            <input type="email" id="email" th:field="*{email}" />
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </div>
+
+        <div>
+            <label th:for="senha" th:text="#{loja.senha}">Senha:</label>
+            <input type="password" id="senha" th:field="*{senha}" />
+            <span th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></span>
+        </div>
+
+        <div>
+            <label th:for="cnpj" th:text="#{loja.cnpj}">CNPJ:</label>
+            <input type="text" id="cnpj" th:field="*{cnpj}" />
+            <span th:if="${#fields.hasErrors('cnpj')}" th:errors="*{cnpj}"></span>
+        </div>
+
+        <div>
+            <label th:for="descricao" th:text="#{loja.descricao}">Descrição:</label>
+            <textarea id="descricao" th:field="*{descricao}"></textarea>
+            <span th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></span>
+        </div>
+
+        <button type="submit" th:text="#{salvar}">Salvar</button>
+    </form>
+
+    <a th:href="@{/lojas/lista}" th:text="#{voltar}">Voltar</a>
+</body>
+</html>
