@@ -31,7 +31,7 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService {
             return new UsuarioDetails(loja);
         }
 
-        // Pode adicionar verificação para admin fixo se quiser
+        //pode adicionar verificação para admin fixo
         throw new UsernameNotFoundException("Usuário com e-mail " + email + " não encontrado.");
     }
 }
