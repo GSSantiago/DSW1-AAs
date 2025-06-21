@@ -3,6 +3,7 @@ package br.ufscar.dc.dsw.AA1Veiculos.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +17,14 @@ public class LojaService implements ILojaService {
 
 	@Autowired
 	ILojaDAO dao;
+
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	public void salvar(Loja loja) {
+		if (!loja.getSenha().startsWith("$2a$")) { 
+			loja.setSenha(passwordEncoder.encode(loja.getSenha()));
+		}
 		dao.save(loja);
 	}
 

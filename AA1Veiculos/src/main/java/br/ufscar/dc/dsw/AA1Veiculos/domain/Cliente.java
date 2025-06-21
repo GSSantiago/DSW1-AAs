@@ -34,8 +34,8 @@ public class Cliente {
     private String nome;
 
     @NotBlank(message = "{cliente.telefone.notblank}")
-    @Pattern(regexp = "\\d{10,11}", message = "{cliente.telefone.invalido}")
-    @Column(nullable = false, length = 11)
+    @Pattern(regexp = "\\d{10,15}", message = "{cliente.telefone.invalido}")
+    @Column(nullable = false, length = 15)
     private String telefone;
 
     @NotBlank(message = "{cliente.sexo.notblank}")

@@ -3,6 +3,7 @@ package br.ufscar.dc.dsw.AA1Veiculos.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +18,14 @@ public class ClienteService implements IClienteService {
     @Autowired
     private IClienteDAO dao;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Override
     public void salvar(Cliente cliente) {
+        if (!cliente.getSenha().startsWith("$2a$")) { // verifica se já está criptografada
+            cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
+        }   
         dao.save(cliente);
     }
 

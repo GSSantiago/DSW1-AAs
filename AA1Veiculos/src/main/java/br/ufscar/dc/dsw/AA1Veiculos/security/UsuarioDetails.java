@@ -18,7 +18,11 @@ public class UsuarioDetails implements UserDetails {
 
     public UsuarioDetails(Cliente cliente) {
         this.cliente = cliente;
-        this.role = "ROLE_CLIENTE";
+        if (cliente.getEmail().equalsIgnoreCase("admin@admin.com")) {
+            this.role = "ROLE_ADMIN";
+        } else {
+            this.role = "ROLE_CLIENTE";
+        }
     }
 
     public UsuarioDetails(Loja loja) {

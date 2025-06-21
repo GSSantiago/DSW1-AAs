@@ -18,8 +18,20 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private ILojaDAO lojaDAO;
 
+    private static final String ADMIN_EMAIL = "admin@admin.com";
+    private static final String ADMIN_SENHA = "$2a$10$H/F92qlL0UebZC4GribOlOv1Ut9ZY3W7hJ9mnSlLGK5soK.2nNHCS"; 
+    
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        if (email.equalsIgnoreCase(ADMIN_EMAIL)) {
+            return User.builder()
+                    .username(ADMIN_EMAIL)
+                    .password(ADMIN_SENHA)
+                    .roles("ADMIN")
+                    .build();
+        }
 
         Cliente cliente = clienteDAO.findByEmail(email);
         if (cliente != null) {
@@ -31,7 +43,6 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService {
             return new UsuarioDetails(loja);
         }
 
-        //pode adicionar verificação para admin fixo
         throw new UsernameNotFoundException("Usuário com e-mail " + email + " não encontrado.");
     }
 }

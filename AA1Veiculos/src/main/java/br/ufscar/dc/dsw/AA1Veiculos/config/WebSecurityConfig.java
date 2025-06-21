@@ -3,7 +3,6 @@ package br.ufscar.dc.dsw.AA1Veiculos.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,9 +26,8 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
+    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
@@ -37,25 +35,26 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests((authz) -> authz
-                .requestMatchers("/error", "/login/**", "/home/**", "/veiculos", "/veiculos/listar", "/js/**", "/css/**", "/image/**", "/webjars/**").permitAll()
-                .requestMatchers("/clientes/**").hasRole("ADMIN")
-                .requestMatchers("/lojas/**").hasRole("ADMIN")
-                .requestMatchers("/veiculos/cadastrar", "/veiculos/editar/**", "/veiculos/excluir/**", "/loja/veiculos").hasRole("LOJA")
-                .requestMatchers("/propostas/**").hasRole("CLIENTE")
-                .anyRequest().authenticated())
-            .formLogin((form) -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/default", true)
-                .permitAll())
-            .logout((logout) -> logout
-                .logoutSuccessUrl("/")
-                .permitAll());
+                .authorizeHttpRequests((authz) -> authz
+                        .requestMatchers("/error", "/login/**", "/home/**", "/veiculos", "/veiculos/listar", "/js/**",
+                                "/css/**", "/image/**", "/webjars/**")
+                        .permitAll()
+                        .requestMatchers("/clientes/**").hasRole("ADMIN")
+                        .requestMatchers("/lojas/**").hasRole("ADMIN")
+                        .requestMatchers("/veiculos/cadastrar", "/veiculos/editar/**", "/veiculos/excluir/**",
+                                "/loja/veiculos")
+                        .hasRole("LOJA")
+                        .requestMatchers("/propostas/**").hasRole("CLIENTE")
+                        .anyRequest().authenticated())
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/default", true)
+                        .permitAll())
+                .logout((logout) -> logout
+                        .logoutSuccessUrl("/")
+                        .permitAll());
 
         return http.build();
     }
 
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-    }
 }
