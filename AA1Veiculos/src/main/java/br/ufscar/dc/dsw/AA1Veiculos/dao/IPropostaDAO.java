@@ -1,5 +1,16 @@
 package br.ufscar.dc.dsw.AA1Veiculos.dao;
 
-public class IPropostaDAO {
-    
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
+
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Cliente;
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Proposta;
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Veiculo;
+
+public interface IPropostaDAO extends CrudRepository<Proposta, Long> {
+
+    List<Proposta> findAllByCliente(Cliente cliente);
+
+    Proposta findByClienteAndVeiculoAndStatus(Cliente cliente, Veiculo veiculo, br.ufscar.dc.dsw.AA1Veiculos.domain.StatusProposta status);
 }

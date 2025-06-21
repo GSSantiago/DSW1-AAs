@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Aa1VeiculosApplication<AA1Veiculos>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.ufscar.dc.dsw.AA1Veiculos.Aa1VeiculosApplication",
+            "projectName": "AA1Veiculos",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
