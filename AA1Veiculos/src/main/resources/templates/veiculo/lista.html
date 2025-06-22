@@ -60,7 +60,16 @@
             </table>
           </div>
         </div>
-		
+		<section class="container mt-4">
+		  <h5 th:text="#{veiculo.galeria.titulo}"></h5>
+		  <div class="row">
+		    <div class="col-md-3 mb-3" th:each="imagem : ${imagens}">
+		      <div class="card">
+		        <img th:src="@{/imagem/{id}(id=${imagem})}" class="card-img-top img-fluid" alt="Imagem Veículo">
+		      </div>
+		    </div>
+		  </div>
+		</section>
       </div>
     </div>
 

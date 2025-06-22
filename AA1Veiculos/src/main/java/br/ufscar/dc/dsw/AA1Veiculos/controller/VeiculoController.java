@@ -27,6 +27,7 @@ import br.ufscar.dc.dsw.AA1Veiculos.domain.Veiculo;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Imagem;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IVeiculoService;
+import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IImagemService;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.ILojaService;
 
 @Controller
@@ -38,6 +39,9 @@ public class VeiculoController {
 
 	@Autowired
 	private ILojaService lojaService;
+	
+	@Autowired
+	private IImagemService imagemService;
 	
 	@GetMapping
 	    public String redirect() {
@@ -137,5 +141,9 @@ public class VeiculoController {
 	public List<String> listaModelos() {
 		return veiculoService.buscarModelos();
 	}
-
+	
+	@ModelAttribute("imagens")
+	public List<Long> listaImagens() {
+		return imagemService.buscarTodosPorId();
+	}
 }

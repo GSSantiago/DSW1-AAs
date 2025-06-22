@@ -1,5 +1,7 @@
 package br.ufscar.dc.dsw.AA1Veiculos.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,4 +23,8 @@ public class ImagemService implements IImagemService {
 		return dao.findById(id.longValue());
 	}
 
+	@Transactional(readOnly = true)
+    public List<Long> buscarTodosPorId() {
+		return dao.findAllIds();
+	}
 }
