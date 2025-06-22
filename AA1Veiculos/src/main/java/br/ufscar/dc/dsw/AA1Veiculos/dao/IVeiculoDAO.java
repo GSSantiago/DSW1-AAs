@@ -15,6 +15,8 @@ public interface IVeiculoDAO extends CrudRepository<Veiculo, Long>{
 	Veiculo findById(long id);
 	
 	Veiculo findByChassi(String chassi);
+	
+	Veiculo findByPlaca(String placa);
 
 	List<Veiculo> findAll();
 	

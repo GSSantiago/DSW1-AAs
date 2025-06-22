@@ -35,6 +35,11 @@ public class VeiculoService implements IVeiculoService {
 	public Veiculo buscarPorChassi(String chassi) {
 		return dao.findByChassi(chassi);
 	}
+	
+	@Transactional(readOnly = true)
+	public Veiculo buscarPorPlaca(String placa) {
+		return dao.findByPlaca(placa);
+	}
 
 	@Transactional(readOnly = true)
 	public List<Veiculo> buscarTodos() {

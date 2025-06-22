@@ -3,6 +3,7 @@ package br.ufscar.dc.dsw.AA1Veiculos.domain;
 import java.math.BigDecimal;
 
 import br.ufscar.dc.dsw.AA1Veiculos.validation.UniqueChassi;
+import br.ufscar.dc.dsw.AA1Veiculos.validation.UniquePlaca;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -22,6 +23,7 @@ public class Veiculo extends AbstractEntity<Long> {
 	@JoinColumn(name = "loja_id")
 	private Loja loja;
 	
+	@UniquePlaca
 	@NotBlank(message = "{NotBlank.veiculo.placa}")
 	@Size(max = 7)
 	@Column(nullable = false, length = 7)

@@ -11,6 +11,8 @@ public interface IVeiculoService {
     
     Veiculo buscarPorChassi(String chassi);
     
+    Veiculo buscarPorPlaca(String placa);
+    
     List<Veiculo> buscarTodosPorModelo(String modelo);
 
     List<Veiculo> buscarTodos();
