@@ -42,15 +42,16 @@ public class WebSecurityConfig {
                         .requestMatchers("/error", "/login", "/login/**", "/home/**", "/veiculos", "/veiculos/listar", "/js/**",
                                 "/css/**", "/image/**", "/webjars/**")
                         .permitAll()
-                        .requestMatchers("/clientes/**", "/lojas/**", "/veiculos/**").hasAuthority("ADMIN")
                         .requestMatchers("/veiculos/cadastrar", "/veiculos/editar/**", "/veiculos/excluir/**",
-                                "/loja/veiculos").hasAuthority("LOJA")
-                        .requestMatchers("/propostas/**").hasAuthority("CLIENTE")
+                                "/loja/veiculos", "/veiculos/meus")
+                        .hasAuthority("ROLE_LOJA")
+                        .requestMatchers("/clientes/**", "/lojas/**", "/veiculos/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/propostas/**").hasAuthority("ROLE_CLIENTE")
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/default", true)
+                        .defaultSuccessUrl("/default")
                         .permitAll())
 
                 .logout(logout -> logout

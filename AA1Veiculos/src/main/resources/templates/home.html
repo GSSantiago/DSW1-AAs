@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>DC - Home</title>
-	
-	<!-- Bootstrap core CSS -->
-	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
-	<link th:href="@{/webjars/open-iconic/font/css/open-iconic-bootstrap.min.css}" rel="stylesheet" />
-	<link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/open-iconic/font/css/open-iconic-bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
 <body>
-	<header th:replace="~{fragments/header::cabecalho}">
-		<div>header</div>
-	</header>
+
+    <div th:replace="~{fragments/header::cabecalho}"></div>
     <main role="main" class="container my-3">
         <div class="jumbotron text-center tertiary-bg">
             <h1 class="display-4">Bem-vindo ao DC - Departamento de Carros</h1>
@@ -42,8 +40,9 @@
         </div>
     </main>
 
-	<footer th:replace="~{fragments/footer::rodape}">
-		<div>footer</div>
-	</footer>
+    <div th:replace="~{fragments/footer::rodape}"></div>
+
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

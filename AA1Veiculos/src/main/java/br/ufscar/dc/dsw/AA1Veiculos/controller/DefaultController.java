@@ -1,23 +1,21 @@
 package br.ufscar.dc.dsw.AA1Veiculos.controller;
 
-import java.io.IOException;
-import java.util.Collection;
-
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.io.IOException;
+import java.util.Collection;
 
 @Controller
 public class DefaultController {
 
     @GetMapping("/default")
     public void defaultAfterLogin(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
+            throws IOException {
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
@@ -25,10 +23,10 @@ public class DefaultController {
             String role = auth.getAuthority();
 
             if (role.equals("ROLE_ADMIN")) {
-                response.sendRedirect(request.getContextPath() + "/clientes/lista");
+                response.sendRedirect(request.getContextPath() + "/clientes");
                 return;
             } else if (role.equals("ROLE_LOJA")) {
-                response.sendRedirect(request.getContextPath() + "/veiculos/loja");
+                response.sendRedirect(request.getContextPath() + "/veiculos/meus");
                 return;
             } else if (role.equals("ROLE_CLIENTE")) {
                 response.sendRedirect(request.getContextPath() + "/propostas");
@@ -39,4 +37,3 @@ public class DefaultController {
         response.sendRedirect(request.getContextPath() + "/");
     }
 }
-

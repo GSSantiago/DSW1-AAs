@@ -71,3 +71,11 @@
 .footer-custom-bg a {
     color: #F9A825 !important;
 }
+
+.dropdown-menu .dropdown-item {
+    color: black !important;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #efd9d9;
+}
