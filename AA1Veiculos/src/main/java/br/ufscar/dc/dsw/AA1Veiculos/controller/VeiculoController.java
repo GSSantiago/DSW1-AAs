@@ -1,6 +1,8 @@
 package br.ufscar.dc.dsw.AA1Veiculos.controller;
 
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.Valid;
@@ -16,13 +18,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Veiculo;
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Imagem;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IVeiculoService;
+import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IImagemService;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.ILojaService;
 
 @Controller
@@ -34,6 +39,9 @@ public class VeiculoController {
 
 	@Autowired
 	private ILojaService lojaService;
+	
+	@Autowired
+	private IImagemService imagemService;
 	
 	@GetMapping
 	    public String redirect() {
@@ -66,20 +74,38 @@ public class VeiculoController {
 
 
 	@PostMapping("/salvar")
-	public String salvar(@Valid Veiculo veiculo, BindingResult result, ModelMap model,  RedirectAttributes attr) {
+	public String salvar(@Valid Veiculo veiculo, BindingResult result, @RequestParam(required = false) List<MultipartFile> arquivos, ModelMap model,  RedirectAttributes attr) {
 
 		if (result.hasErrors()) {
 			 System.out.println("Erros de validação encontrados: ");
 			 result.getAllErrors().forEach(error -> System.out.println(error.toString()));
-		      model.addAttribute("lojas", lojaService.buscarTodos());
 
 			return "veiculo/cadastro";
 		}
+		
+	    List<Imagem> imagens = new ArrayList<>();
+	    for (MultipartFile arquivo : arquivos) {
+	        if (arquivo != null && !arquivo.isEmpty()) {
+	            try {
+	                Imagem img = new Imagem();
+	                img.setNome(arquivo.getOriginalFilename());
+	                img.setContentType(arquivo.getContentType());
+	                img.setDados(arquivo.getBytes()); 
+	                img.setVeiculo(veiculo);
+	                imagens.add(img);
+	            } catch (IOException e) {
+	                model.addAttribute("fail", "Falha ao ler o arquivo " + arquivo.getOriginalFilename());
+	                return "veiculo/cadastro";
+	            }
+	        }
+	    }
+	    veiculo.setImagens(imagens);  
 
 		veiculoService.salvar(veiculo);
 		attr.addFlashAttribute("sucess", "veiculo.create.sucess");
 		return "redirect:/veiculos/listar";
 	}
+	
 
 	@GetMapping("/editar/{id}")
 	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
@@ -100,7 +126,7 @@ public class VeiculoController {
 	}
 
 	@GetMapping("/excluir/{id}")
-	public String excluir(@PathVariable("id") Long id, RedirectAttributes attr) {
+	public String excluir(@PathVariable Long id, RedirectAttributes attr) {
 		veiculoService.excluir(id);
 		attr.addFlashAttribute("sucess", "veiculo.delete.sucess");
 		return "redirect:/veiculo/listar";
@@ -114,5 +140,10 @@ public class VeiculoController {
 	@ModelAttribute("modelos")
 	public List<String> listaModelos() {
 		return veiculoService.buscarModelos();
+	}
+	
+	@ModelAttribute("imagens")
+	public List<Long> listaImagens() {
+		return imagemService.buscarTodosPorId();
 	}
 }

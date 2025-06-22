@@ -1,13 +1,17 @@
 package br.ufscar.dc.dsw.AA1Veiculos.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.ufscar.dc.dsw.AA1Veiculos.validation.UniqueChassi;
 import br.ufscar.dc.dsw.AA1Veiculos.validation.UniquePlaca;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -59,7 +63,8 @@ public class Veiculo extends AbstractEntity<Long> {
 	@Column(nullable = false, columnDefinition = "DECIMAL(8,2) DEFAULT 0.0")
 	private BigDecimal valor;
 	
-	//[TODO] Adicionar fotos do veiculo
+	@OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Imagem> imagens = new ArrayList<>();
 	
 	public Loja getLoja() {
 		return loja;
@@ -134,6 +139,20 @@ public class Veiculo extends AbstractEntity<Long> {
 
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
+	}
+	
+	public List<Imagem> getImagens() {
+	    return imagens;
+	}
+
+	public void setImagens(List<Imagem> imagens) {
+	    this.imagens.clear();
+	    if (imagens != null) {
+	        for (Imagem imagem : imagens) {
+	            imagem.setVeiculo(this);
+	            this.imagens.add(imagem);
+	        }
+	    }
 	}
 }
 
