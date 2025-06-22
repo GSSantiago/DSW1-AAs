@@ -23,7 +23,7 @@
     <div th:replace="~{fragments/alert}"></div>
 
     <form th:action="${veiculo.id == null} ? @{/veiculos/salvar} : @{/veiculos/editar}" 
-          th:object="${veiculo}" method="post">
+          th:object="${veiculo}" method="post" enctype="multipart/form-data">
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="loja" th:text="#{veiculo.loja.label}"></label>
@@ -100,10 +100,20 @@
             <span th:errors="*{descricao}"></span>
           </div>
         </div>
+		
+		 <div class="form-group col-12">
+		    <label th:text="#{veiculo.imagens.label}"></label>
+		    <div class="form-row">
+		      <div class="col-md-4 mb-2" th:each="i : ${#numbers.sequence(1,10)}">
+		        <input type="file" name="arquivos" class="form-control-file" accept=".jpg,.png"/>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<button type="submit" class="btn success-bg btn-sm mb-5" th:text="#{button.salvar.label}"></button>
+
       </div>
 
-      <input type="hidden" th:field="*{id}" />
-      <button type="submit" class="btn success-bg btn-sm" th:text="#{button.salvar.label}"></button>
     </form>
   </div>
 </section>
