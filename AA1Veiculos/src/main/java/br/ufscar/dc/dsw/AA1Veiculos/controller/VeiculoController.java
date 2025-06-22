@@ -71,7 +71,7 @@ public class VeiculoController {
 		if (result.hasErrors()) {
 			 System.out.println("Erros de validação encontrados: ");
 			 result.getAllErrors().forEach(error -> System.out.println(error.toString()));
-		      model.addAttribute("lojas", lojaService.buscarTodas());
+		      model.addAttribute("lojas", lojaService.buscarTodos());
 
 			return "veiculo/cadastro";
 		}
@@ -108,7 +108,7 @@ public class VeiculoController {
 
 	@ModelAttribute("lojas")
 	public List<Loja> listaLojas() {
-		return lojaService.buscarTodas();
+		return lojaService.buscarTodos();
 	}
 	
 	@ModelAttribute("modelos")

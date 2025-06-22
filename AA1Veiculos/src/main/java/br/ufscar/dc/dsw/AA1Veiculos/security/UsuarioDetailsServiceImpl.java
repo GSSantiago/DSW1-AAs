@@ -1,11 +1,15 @@
 package br.ufscar.dc.dsw.AA1Veiculos.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
+import br.ufscar.dc.dsw.AA1Veiculos.dao.IAdminDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.dao.IClienteDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.dao.ILojaDAO;
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Admin;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Cliente;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
 
@@ -18,26 +22,32 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private ILojaDAO lojaDAO;
 
-    private static final String ADMIN_EMAIL = "admin@admin.com";
-    private static final String ADMIN_SENHA = "$2a$10$H/F92qlL0UebZC4GribOlOv1Ut9ZY3W7hJ9mnSlLGK5soK.2nNHCS"; 
-    
+    @Autowired
+    private IAdminDAO adminDAO;
+
+    @Autowired
+    private MessageSource messageSource;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-        if (email.equalsIgnoreCase(ADMIN_EMAIL)) {
-            return new UsuarioDetails(ADMIN_EMAIL, ADMIN_SENHA, "ROLE_ADMIN");
-        }
-
+        Admin admin = adminDAO.findByEmail(email);
         Cliente cliente = clienteDAO.findByEmail(email);
-        if (cliente != null) {
-            return new UsuarioDetails(cliente);
-        }
-
         Loja loja = lojaDAO.findByEmail(email);
-        if (loja != null) {
-            return new UsuarioDetails(loja);
-        }
 
-        throw new UsernameNotFoundException("Usuário com e-mail " + email + " não encontrado.");
+        if (admin != null) {
+            return new UsuarioDetails(admin, "ROLE_ADMIN");
+        }
+        if (cliente != null) {
+            return new UsuarioDetails(cliente, "ROLE_CLIENTE");
+        }
+        if (loja != null) {
+            return new UsuarioDetails(loja, "ROLE_LOJA");
+        }
+        throw new UsernameNotFoundException(
+                messageSource.getMessage("usuario.nao.encontrado", new Object[] { email },
+                        LocaleContextHolder.getLocale()));
     }
+
+
+
 }

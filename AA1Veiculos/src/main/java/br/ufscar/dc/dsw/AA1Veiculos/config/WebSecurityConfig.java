@@ -2,7 +2,7 @@ package br.ufscar.dc.dsw.AA1Veiculos.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.dao.*;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,8 +26,9 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
@@ -35,26 +36,29 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/error", "/login/**", "/home/**", "/veiculos", "/veiculos/listar", "/js/**",
+                .authenticationProvider(authenticationProvider())
+
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/error", "/login", "/login/**", "/home/**", "/veiculos", "/veiculos/listar", "/js/**",
                                 "/css/**", "/image/**", "/webjars/**")
                         .permitAll()
-                        .requestMatchers("/clientes/**").hasRole("ADMIN")
-                        .requestMatchers("/lojas/**").hasRole("ADMIN")
+                        .requestMatchers("/clientes/**", "/lojas/**").hasAuthority("ADMIN")
                         .requestMatchers("/veiculos/cadastrar", "/veiculos/editar/**", "/veiculos/excluir/**",
-                                "/loja/veiculos")
-                        .hasRole("LOJA")
-                        .requestMatchers("/propostas/**").hasRole("CLIENTE")
+                                "/loja/veiculos").hasAuthority("LOJA")
+                        .requestMatchers("/propostas/**").hasAuthority("CLIENTE")
                         .anyRequest().authenticated())
-                .formLogin((form) -> form
+
+                .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/default", true)
                         .permitAll())
-                .logout((logout) -> logout
+
+                .logout(logout -> logout
                         .logoutSuccessUrl("/")
                         .permitAll());
 
         return http.build();
     }
+
 
 }

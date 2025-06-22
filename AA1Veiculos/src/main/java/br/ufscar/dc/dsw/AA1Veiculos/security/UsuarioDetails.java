@@ -1,62 +1,41 @@
 package br.ufscar.dc.dsw.AA1Veiculos.security;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.ufscar.dc.dsw.AA1Veiculos.domain.Cliente;
-import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Usuario;
 
+@SuppressWarnings("serial")
 public class UsuarioDetails implements UserDetails {
 
-    private Object usuario; 
-    private String role;
-    private String username; 
-    private String password; 
+    private final Usuario usuario;
+    private final Collection<? extends GrantedAuthority> authorities;
 
-    public UsuarioDetails(Cliente cliente) {
-        this.usuario = cliente;
-        this.username = cliente.getEmail();
-        this.password = cliente.getSenha();
-        if (cliente.getEmail().equalsIgnoreCase("admin@admin.com")) {
-            this.role = "ROLE_ADMIN";
-        } else {
-            this.role = "ROLE_CLIENTE";
-        }
+    public UsuarioDetails(Usuario usuario, String role) {
+        this.usuario = usuario;
+        this.authorities = List.of(new SimpleGrantedAuthority(role));
     }
 
-  
-    public UsuarioDetails(Loja loja) {
-        this.usuario = loja;
-        this.username = loja.getEmail();
-        this.password = loja.getSenha();
-        this.role = "ROLE_LOJA";
-    }
-
-    // Contrutor Admin
-    public UsuarioDetails(String username, String password, String role) {
-        this.usuario = null; 
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority(role));
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
     @Override
     public String getUsername() {
-        return this.username;
+        return usuario.getEmail();
+    }
+
+    @Override
+    public String getPassword() {
+        return usuario.getSenha();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
     }
 
     @Override
@@ -77,14 +56,5 @@ public class UsuarioDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-
-    public Object getUsuario() {
-        return usuario;
-    }
-
-    public String getRole() {
-        return role;
     }
 }

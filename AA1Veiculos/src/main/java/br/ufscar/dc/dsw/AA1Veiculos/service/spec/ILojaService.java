@@ -5,16 +5,10 @@ import java.util.List;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
 
 public interface ILojaService {
-
-    Loja buscarPorCNPJ(String CNPJ);
-    
     Loja buscarPorId(Long id);
-
-    List<Loja> buscarTodas();
-
     Loja buscarPorEmail(String email);
-
+    List<Loja> buscarTodos();
     void salvar(Loja loja);
-
     void excluir(Long id);
+    Loja buscarPorCnpj(String cnpj);
 }

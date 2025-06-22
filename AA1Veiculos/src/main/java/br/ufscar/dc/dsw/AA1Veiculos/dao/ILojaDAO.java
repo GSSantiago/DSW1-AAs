@@ -1,13 +1,13 @@
 package br.ufscar.dc.dsw.AA1Veiculos.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
 
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
 
-@Repository
-public interface ILojaDAO extends JpaRepository<Loja, Long> {
-    Loja findByCnpj(String cnpj);
+public interface ILojaDAO extends CrudRepository<Loja, Long> {
     Loja findByEmail(String email);
-    Loja findById(long id);
+    List<Loja> findAll();
+    Loja findByCnpj(String cnpj);
 }

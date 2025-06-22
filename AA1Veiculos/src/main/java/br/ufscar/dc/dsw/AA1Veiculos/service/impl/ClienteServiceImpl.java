@@ -5,15 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.ufscar.dc.dsw.AA1Veiculos.dao.IClienteDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Cliente;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IClienteService;
 
 @Service
-@Transactional(readOnly = false)
-public class ClienteService implements IClienteService {
+public class ClienteServiceImpl implements IClienteService {
 
     @Autowired
     private IClienteDAO dao;
@@ -23,9 +21,9 @@ public class ClienteService implements IClienteService {
 
     @Override
     public void salvar(Cliente cliente) {
-        if (!cliente.getSenha().startsWith("$2a$")) { // verifica se já está criptografada
+        if (!cliente.getSenha().startsWith("$2a$")) {
             cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
-        }   
+        }
         dao.save(cliente);
     }
 
@@ -35,19 +33,17 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Cliente buscarPorId(Long id) {
         return dao.findById(id).orElse(null);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Cliente> buscarTodos() {
-        return dao.findAll();
-    }
-
-    @Transactional(readOnly = true)
     public Cliente buscarPorEmail(String email) {
         return dao.findByEmail(email);
+    }
+
+    @Override
+    public List<Cliente> buscarTodos() {
+        return dao.findAll();
     }
 }

@@ -3,7 +3,6 @@ package br.ufscar.dc.dsw.AA1Veiculos.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,44 +15,51 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/clientes")
-@PreAuthorize("hasAuthority('ADMIN')")
 public class ClienteController {
 
     @Autowired
-    private IClienteService service;
+    private IClienteService clienteService;
 
-    @GetMapping("/lista")
-    public String lista(Model model) {
-        List<Cliente> clientes = service.buscarTodos();
-        model.addAttribute("clientes", clientes);
-        return "cliente/lista";
+    @GetMapping
+    public String listar(Model model) {
+        List<Cliente> lista = clienteService.buscarTodos();
+        model.addAttribute("clientes", lista);
+        return "cliente/lista"; 
     }
 
-    @GetMapping("/cadastro")
-    public String cadastro(Model model) {
-        model.addAttribute("cliente", new Cliente());
-        return "cliente/cadastro";
+    @GetMapping("/cadastrar")
+    public String cadastrar(Cliente cliente) {
+        return "cliente/cadastro"; 
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result) {
+    public String salvar(@Valid Cliente cliente, BindingResult result) {
         if (result.hasErrors()) {
             return "cliente/cadastro";
         }
-        service.salvar(cliente);
-        return "redirect:/clientes/lista";
+        clienteService.salvar(cliente);
+        return "redirect:/clientes";
     }
 
     @GetMapping("/editar/{id}")
-    public String preEditar(@PathVariable("id") Long id, Model model) {
-        Cliente cliente = service.buscarPorId(id);
+    public String editar(@PathVariable("id") Long id, Model model) {
+        Cliente cliente = clienteService.buscarPorId(id);
         model.addAttribute("cliente", cliente);
         return "cliente/cadastro";
     }
 
+    @PostMapping("/editar")
+    public String atualizar(@Valid Cliente cliente, BindingResult result) {
+        if (result.hasErrors()) {
+            return "cliente/cadastro";
+        }
+        clienteService.salvar(cliente);
+        return "redirect:/clientes";
+    }
+
     @GetMapping("/remover/{id}")
     public String remover(@PathVariable("id") Long id) {
-        service.excluir(id);
-        return "redirect:/clientes/lista";
+        clienteService.excluir(id);
+        return "redirect:/clientes";
     }
 }

@@ -1,67 +1,28 @@
 package br.ufscar.dc.dsw.AA1Veiculos.domain;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import br.ufscar.dc.dsw.AA1Veiculos.validation.UniqueCNPJ;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Loja")
-public class Loja {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Email
-    @NotBlank
-    @Size(max = 255)
-    private String email;
-
-    @NotBlank
-    @Size(min = 6, max = 64)
-    private String senha;
+public class Loja extends Usuario {
 
     @UniqueCNPJ
-    @NotBlank
-    @Size(min = 14, max = 18) 
+    @NotBlank(message = "{cnpj.not.blank}")
+    @Size(min = 14, max = 18, message = "{cnpj.size}")
+    @Column(nullable = false, unique = true, length = 18)
     private String cnpj;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank(message = "{nome.not.blank}")
+    @Size(max = 255, message = "{nome.size}")
+    @Column(nullable = false)
     private String nome;
 
-    @Size(max = 500)
+    @Size(max = 500, message = "{descricao.size}")
     private String descricao;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
 
     public String getCnpj() {
         return cnpj;

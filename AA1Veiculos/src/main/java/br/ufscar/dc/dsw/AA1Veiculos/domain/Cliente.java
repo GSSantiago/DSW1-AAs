@@ -4,74 +4,31 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Cliente")
-public class Cliente {
+public class Cliente extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotBlank(message = "{cliente.email.notblank}")
-    @Email(message = "{cliente.email.invalido}")
-    @Size(max = 255, message = "{cliente.email.tamanho}")
-    @Column(nullable = false, unique = true, length = 255)
-    private String email;
-
-    @NotBlank(message = "{cliente.senha.notblank}")
-    @Size(min = 6, max = 64, message = "{cliente.senha.tamanho}")
-    @Column(nullable = false, length = 64)
-    private String senha;
-
-    @NotBlank(message = "{cliente.cpf.notblank}")
-    @Pattern(regexp = "\\d{11}", message = "{cliente.cpf.invalido}")
+    @NotBlank
+    @Pattern(regexp = "\\d{11}")
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
-    @NotBlank(message = "{cliente.nome.notblank}")
-    @Size(max = 255, message = "{cliente.nome.tamanho}")
-    @Column(nullable = false, length = 255)
+    @NotBlank
+    @Size(max = 255)
     private String nome;
 
-    @NotBlank(message = "{cliente.telefone.notblank}")
-    @Pattern(regexp = "\\d{10,15}", message = "{cliente.telefone.invalido}")
-    @Column(nullable = false, length = 15)
+    @NotBlank
+    @Pattern(regexp = "\\d{10,15}")
     private String telefone;
 
-    @NotBlank(message = "{cliente.sexo.notblank}")
-    @Pattern(regexp = "M|F", message = "{cliente.sexo.invalido}")
-    @Column(nullable = false, length = 1)
+    @NotBlank
+    @Pattern(regexp = "M|F")
     private String sexo;
 
-    @NotNull(message = "{cliente.dataNascimento.notnull}")
-    @Past(message = "{cliente.dataNascimento.passado}")
-    @Column(nullable = false)
+    @NotNull
+    @Past
     private LocalDate dataNascimento;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
 
     public String getCpf() {
         return cpf;
