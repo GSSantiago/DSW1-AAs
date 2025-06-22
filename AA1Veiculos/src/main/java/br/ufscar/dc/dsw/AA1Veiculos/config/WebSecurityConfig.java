@@ -42,7 +42,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/error", "/login", "/login/**", "/home/**", "/veiculos", "/veiculos/listar", "/js/**",
                                 "/css/**", "/image/**", "/webjars/**")
                         .permitAll()
-                        .requestMatchers("/clientes/**", "/lojas/**").hasAuthority("ADMIN")
+                        .requestMatchers("/clientes/**", "/lojas/**", "/veiculos/**").hasAuthority("ADMIN")
                         .requestMatchers("/veiculos/cadastrar", "/veiculos/editar/**", "/veiculos/excluir/**",
                                 "/loja/veiculos").hasAuthority("LOJA")
                         .requestMatchers("/propostas/**").hasAuthority("CLIENTE")
