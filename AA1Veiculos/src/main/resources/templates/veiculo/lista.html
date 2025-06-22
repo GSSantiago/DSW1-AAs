@@ -11,10 +11,6 @@
           <button class="btn btn-link text-white p-0 mr-3" data-toggle="collapse" data-target="#filterSection" aria-expanded="false" aria-controls="filterSection">
 			Filtros
           </button>
-          <a class="btn btn-secondary-custom btn-sm" th:href="@{/veiculos/cadastrar}" role="button">
-            <span class="oi oi-plus" title="Cadastro" aria-hidden="true"></span>
-            <span th:text="#{veiculo.cadastrar.label}">Cadastrar Veículo</span>
-          </a>
         </div>
 
         <div id="filterSection" class="collapse">
@@ -40,7 +36,7 @@
                   <th th:text="#{veiculo.loja.label}"></th>
                   <th th:text="#{veiculo.ano.label}"></th>
                   <th th:text="#{veiculo.valor.label}"></th>
-                  <th>Acoes</th> 
+                  <th sec:authorize="hasAuthority('ROLE_CLIENTE')">Acoes</th> 
                 </tr>
               </thead>
               <tbody>
@@ -50,7 +46,7 @@
                   <td th:text="${veiculo.loja.nome}">Loja Y</td>
                   <td th:text="${veiculo.ano}">2020</td>
 				  <td th:text="|${#numbers.formatCurrency(veiculo.valor)}|">R$ 50.000,00</td>
-                  <td>
+                  <td sec:authorize="hasAuthority('ROLE_CLIENTE')">
                       <a th:href="@{/propostas/formulario/{id}(id=${veiculo.id})}" class="btn btn-primary btn-sm">
                           Fazer Proposta
                       </a>
@@ -60,7 +56,7 @@
             </table>
           </div>
         </div>
-		<section class="container mt-4">
+		<section class="container mt-4" th:if="${imagens != null and !imagens.isEmpty()}">>
 		  <h5 th:text="#{veiculo.galeria.titulo}"></h5>
 		  <div class="row">
 		    <div class="col-md-3 mb-3" th:each="imagem : ${imagens}">

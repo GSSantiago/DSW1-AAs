@@ -20,29 +20,22 @@
             <table class="table table-striped table-hover table-sm mb-0">
               <thead class="thead-light">
                 <tr>
-                  <th>#</th>
-                  <th th:text="#{veiculo.placa.label}">Placa</th>
-                  <th th:text="#{veiculo.modelo.label}">Modelo</th>
-                  <th th:text="#{veiculo.ano.label}">Ano</th>
-                  <th th:text="#{veiculo.valor.label}">Valor</th>
-                  <th th:text="#{acao.label}">Ação</th>
+                  <th th:text="#{veiculo.placa.label}"></th>
+                  <th th:text="#{veiculo.modelo.label}"></th>
+                  <th th:text="#{veiculo.ano.label}"></th>
+                  <th th:text="#{veiculo.valor.label}"></th>
+				  <th th:text="#{veiculo.chassi.label}"></th>
+				  <th th:text="#{veiculo.quilometragem.label}"></th>
                 </tr>
               </thead>
               <tbody>
                 <tr th:each="veiculo : ${veiculos}">
-                  <td th:text="${veiculo.id}">1</td>
                   <td th:text="${veiculo.placa}">ABC-1234</td>
                   <td th:text="${veiculo.modelo}">Modelo X</td>
                   <td th:text="${veiculo.ano}">2020</td>
-                  <td th:text="|R$ ${#numbers.formatDecimal(veiculo.valor,2,2,'COMMA')}|">R$ 50.000,00</td>
-                  <td class="text-nowrap">
-                    <a class="btn btn-sm btn-info mr-1" th:href="@{/veiculos/editar/{id}(id=${veiculo.id})}" th:title="#{link.editar.label}">
-                      <span class="oi oi-brush" aria-hidden="true"></span>
-                    </a>
-                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" th:data-target="${'#modalExcluir'+veiculo.id}">
-                      <span class="oi oi-circle-x" th:title="#{link.excluir.label}" aria-hidden="true"></span>
-                    </button>
-                  </td>
+                  <td th:text="|${#numbers.formatCurrency(veiculo.valor)}|">R$ 50.000,00</td>
+				  <td th:text="${veiculo.chassi}">ABCDEF1234</td>
+				  <td th:text="|${#numbers.formatDecimal(veiculo.quilometragem,0, 'POINT', 0,'COMMA')} kM|"></td>
                 </tr>
               </tbody>
             </table>

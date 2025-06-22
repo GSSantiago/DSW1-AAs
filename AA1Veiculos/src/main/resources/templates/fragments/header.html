@@ -18,16 +18,16 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_ADMIN')">
                     <a class="nav-link" th:href="@{/clientes}" th:text="#{cliente.menu}">Clientes</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_ADMIN')">
                     <a class="nav-link" th:href="@{/lojas}" th:text="#{loja.menu}">Lojas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/veiculos/listar}" th:text="#{veiculo.menu}">Veículos</a>
                 </li>
-                <li class="nav-item" sec:authorize="hasAuthority('ROLE_LOJA')">
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_LOJA') or hasAuthority('ROLE_ADMIN')">
                     <a class="nav-link" th:href="@{/veiculos/meus}" th:text="#{veiculo.lista.loja.titulo}">Meus Veículos</a>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
@@ -40,6 +40,10 @@
                            onclick="document.getElementById('logoutForm').submit();">Sair</a>
                     </div>
                 </li>
+				
+				<li class="nav-item" sec:authorize="isAnonymous()">
+                   <a class="nav-link" th:href="@{/login}" th:text="#{login.label}"></a>
+               </li>
             </ul>
         </div>
     </nav>

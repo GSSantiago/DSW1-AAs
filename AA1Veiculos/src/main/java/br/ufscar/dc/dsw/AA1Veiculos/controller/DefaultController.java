@@ -29,7 +29,7 @@ public class DefaultController {
                 response.sendRedirect(request.getContextPath() + "/veiculos/meus");
                 return;
             } else if (role.equals("ROLE_CLIENTE")) {
-                response.sendRedirect(request.getContextPath() + "/propostas");
+                response.sendRedirect(request.getContextPath() + "/veiculos");
                 return;
             }
         }
