@@ -1,17 +1,26 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="#{cliente.lista.titulo}">Lista de Clientes</title>
+  <meta charset="UTF-8" />
 </head>
 <body>
-    <h1 th:text="#{cliente.lista.titulo}">Lista de Clientes</h1>
+<section class="container my-3" layout:fragment="corpo">
 
-    <a th:href="@{/clientes/cadastro}" th:text="#{cliente.lista.novo}">Novo Cliente</a>
+  <div class="container" id="listagem-clientes">
 
-    <table border="1">
-        <thead>
-            <tr>
+    <div class="card shadow-sm mb-4">
+      <div class="card-header d-flex align-items-center tertiary-bg text-white">
+        <h5 class="mb-0 flex-grow-1" th:text="#{cliente.lista.titulo}">Clientes</h5>
+        <a class="btn btn-secondary-custom btn-sm" th:href="@{/clientes/cadastro}" role="button">
+          <span class="oi oi-plus" title="Novo" aria-hidden="true"></span>
+          <span th:text="#{cliente.lista.novo}">Novo Cliente</span>
+        </a>
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-sm mb-0">
+            <thead class="thead-light">
+              <tr>
                 <th th:text="#{cliente.nome}">Nome</th>
                 <th th:text="#{cliente.email}">Email</th>
                 <th th:text="#{cliente.cpf}">CPF</th>
@@ -19,22 +28,35 @@
                 <th th:text="#{cliente.sexo}">Sexo</th>
                 <th th:text="#{cliente.dataNascimento}">Data de Nascimento</th>
                 <th th:text="#{acoes}">Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="cliente : ${clientes}">
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="cliente : ${clientes}">
                 <td th:text="${cliente.nome}">Nome</td>
                 <td th:text="${cliente.email}">Email</td>
                 <td th:text="${cliente.cpf}">CPF</td>
                 <td th:text="${cliente.telefone}">Telefone</td>
                 <td th:text="${cliente.sexo}">Sexo</td>
-                <td th:text="${cliente.dataNascimento}">Data</td>
+                <td th:text="${#temporals.format(cliente.dataNascimento, 'dd/MM/yyyy')}">Data</td>
                 <td>
-                    <a th:href="@{|/clientes/editar/${cliente.id}|}" th:text="#{editar}">Editar</a> |
-                    <a th:href="@{|/clientes/remover/${cliente.id}|}" th:text="#{remover}">Remover</a>
+                  <a class="btn btn-link btn-sm p-0 mr-2"
+                     th:href="@{|/clientes/editar/${cliente.id}|}" th:text="#{editar}">Editar</a> |
+                  <a class="btn btn-link btn-sm p-0 ml-2"
+				  	 th:id="${#strings.concat('a_clientes/remover/',cliente.id)}" 
+				     data-toggle="modal" data-target="#myModal" href="" th:text="#{remover}">
+				  Remover</a>
                 </td>
-            </tr>
-        </tbody>
-    </table>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div th:replace="~{fragments/modal::modal}"></div>
+</section>
 </body>
 </html>

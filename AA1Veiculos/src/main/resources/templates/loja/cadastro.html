@@ -1,46 +1,82 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="#{loja.form.titulo}">Cadastro de Loja</title>
+  <meta charset="UTF-8" />
 </head>
 <body>
-    <h1 th:text="#{loja.form.titulo}">Cadastro de Loja</h1>
+<section class="layout-content" layout:fragment="corpo">
 
-    <form th:action="@{/lojas/salvar}" th:object="${loja}" method="post">
-        <div>
-            <label th:for="nome" th:text="#{loja.nome}">Nome:</label>
-            <input type="text" id="nome" th:field="*{nome}" />
-            <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+  <nav class="navbar navbar-expand-md bg-light mb-3">
+    <div class="container">
+      <a class="btn btn-secondary-custom btn-md" th:href="@{/lojas/lista}" role="button">
+        <span class="oi oi-spreadsheet" aria-hidden="true"></span>
+        <span th:text="#{loja.lista.titulo}">Listar Lojas</span>
+      </a>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active d-flex align-items-center">
+          <span th:text="#{loja.form.titulo}">Cadastro de Loja</span>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container" id="cadastro-loja">
+    <div th:replace="~{fragments/alert}"></div>
+
+    <form th:action="${loja.id == null} ? @{/lojas/salvar} : @{/lojas/editar}" 
+          th:object="${loja}" method="post">
+      <div class="form-row">
+
+        <div class="form-group col-md-6">
+          <label for="nome" th:text="#{loja.nome}"></label>
+          <input type="text" id="nome" class="form-control" th:field="*{nome}"
+                 th:classappend="${#fields.hasErrors('nome')}? 'is-invalid'">
+          <div class="invalid-feedback">
+            <span th:errors="*{nome}"></span>
+          </div>
         </div>
 
-        <div>
-            <label th:for="email" th:text="#{loja.email}">Email:</label>
-            <input type="email" id="email" th:field="*{email}" />
-            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        <div class="form-group col-md-6">
+          <label for="email" th:text="#{loja.email}"></label>
+          <input type="email" id="email" class="form-control" th:field="*{email}"
+                 th:classappend="${#fields.hasErrors('email')}? 'is-invalid'">
+          <div class="invalid-feedback">
+            <span th:errors="*{email}"></span>
+          </div>
         </div>
 
-        <div>
-            <label th:for="senha" th:text="#{loja.senha}">Senha:</label>
-            <input type="password" id="senha" th:field="*{senha}" />
-            <span th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></span>
+        <div class="form-group col-md-6">
+          <label for="senha" th:text="#{loja.senha}"></label>
+          <input type="password" id="senha" class="form-control" th:field="*{senha}"
+                 th:classappend="${#fields.hasErrors('senha')}? 'is-invalid'">
+          <div class="invalid-feedback">
+            <span th:errors="*{senha}"></span>
+          </div>
         </div>
 
-        <div>
-            <label th:for="cnpj" th:text="#{loja.cnpj}">CNPJ:</label>
-            <input type="text" id="cnpj" th:field="*{cnpj}" />
-            <span th:if="${#fields.hasErrors('cnpj')}" th:errors="*{cnpj}"></span>
+        <div class="form-group col-md-6">
+          <label for="cnpj" th:text="#{loja.cnpj}"></label>
+          <input type="text" id="cnpj" class="form-control" th:field="*{cnpj}"
+                 th:classappend="${#fields.hasErrors('cnpj')}? 'is-invalid'">
+          <div class="invalid-feedback">
+            <span th:errors="*{cnpj}"></span>
+          </div>
         </div>
 
-        <div>
-            <label th:for="descricao" th:text="#{loja.descricao}">Descrição:</label>
-            <textarea id="descricao" th:field="*{descricao}"></textarea>
-            <span th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></span>
+        <div class="form-group col-12">
+          <label for="descricao" th:text="#{loja.descricao}"></label>
+          <textarea id="descricao" class="form-control" rows="3" th:field="*{descricao}"
+                    th:classappend="${#fields.hasErrors('descricao')}? 'is-invalid'"></textarea>
+          <div class="invalid-feedback">
+            <span th:errors="*{descricao}"></span>
+          </div>
         </div>
 
-        <button type="submit" th:text="#{salvar}">Salvar</button>
+      </div>
+
+      <input type="hidden" th:field="*{id}" />
+      <button type="submit" class="btn success-bg btn-sm" th:text="#{button.salvar.label}">Salvar</button>
     </form>
-
-    <a th:href="@{/lojas/lista}" th:text="#{voltar}">Voltar</a>
+  </div>
+</section>
 </body>
 </html>
