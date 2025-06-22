@@ -12,12 +12,15 @@ import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
 
 public class UsuarioDetails implements UserDetails {
 
-    private Cliente cliente;
-    private Loja loja;
+    private Object usuario; 
     private String role;
+    private String username; 
+    private String password; 
 
     public UsuarioDetails(Cliente cliente) {
-        this.cliente = cliente;
+        this.usuario = cliente;
+        this.username = cliente.getEmail();
+        this.password = cliente.getSenha();
         if (cliente.getEmail().equalsIgnoreCase("admin@admin.com")) {
             this.role = "ROLE_ADMIN";
         } else {
@@ -25,9 +28,20 @@ public class UsuarioDetails implements UserDetails {
         }
     }
 
+  
     public UsuarioDetails(Loja loja) {
-        this.loja = loja;
+        this.usuario = loja;
+        this.username = loja.getEmail();
+        this.password = loja.getSenha();
         this.role = "ROLE_LOJA";
+    }
+
+    // Contrutor Admin
+    public UsuarioDetails(String username, String password, String role) {
+        this.usuario = null; 
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     @Override
@@ -37,12 +51,12 @@ public class UsuarioDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return cliente != null ? cliente.getSenha() : loja.getSenha();
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return cliente != null ? cliente.getEmail() : loja.getEmail();
+        return this.username;
     }
 
     @Override
@@ -65,11 +79,12 @@ public class UsuarioDetails implements UserDetails {
         return true;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+
+    public Object getUsuario() {
+        return usuario;
     }
 
-    public Loja getLoja() {
-        return loja;
+    public String getRole() {
+        return role;
     }
 }

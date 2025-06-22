@@ -1,0 +1,10 @@
+<form th:action="@{/propostas/recusar}" th:object="${proposta}" method="post" class="mt-4">
+    <input type="hidden" th:field="*{id}"/>
+
+    <div class="form-group">
+        <label for="contraProposta">Contra Proposta (opcional)</label>
+        <textarea class="form-control" id="contraProposta" th:field="*{contraProposta}"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-danger">Confirmar Recusa</button>
+</form>

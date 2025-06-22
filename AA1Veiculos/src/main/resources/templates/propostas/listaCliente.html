@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Minhas Propostas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Minhas Propostas</h1>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Veículo</th>
+                <th>Loja</th>
+                <th>Valor Proposta</th>
+                <th>Condições de Pagamento</th>
+                <th>Data da Proposta</th>
+                <th>Status</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="proposta : ${propostas}">
+                <td th:text="${proposta.veiculo.modelo}"></td>
+                <td th:text="${proposta.veiculo.loja.nome}"></td>
+                <td th:text="${#numbers.formatCurrency(proposta.valorProposta)}"></td>
+                <td th:text="${proposta.condicoesPagamento}"></td>
+                <td th:text="${proposta.dataProposta}"></td>
+                <td th:text="${proposta.status}"></td>
+                <td>
+                    <span th:if="${proposta.status == 'NAO_ACEITO'}" class="text-danger">Proposta recusada</span>
+                    <span th:if="${proposta.status == 'ACEITO'}" class="text-success">Proposta aceita</span>
+                    <span th:if="${proposta.status == 'ABERTO'}" class="text-warning">Em análise</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/" class="btn btn-primary">Voltar para Home</a>
+</div>
+
+</body>
+</html>

@@ -40,6 +40,7 @@
                   <th th:text="#{veiculo.loja.label}"></th>
                   <th th:text="#{veiculo.ano.label}"></th>
                   <th th:text="#{veiculo.valor.label}"></th>
+                  <th>Acoes</th> 
                 </tr>
               </thead>
               <tbody>
@@ -49,6 +50,11 @@
                   <td th:text="${veiculo.loja.nome}">Loja Y</td>
                   <td th:text="${veiculo.ano}">2020</td>
                   <td th:text="|R$ ${#numbers.formatDecimal(veiculo.valor,2,2,'COMMA')}|">R$ 50.000,00</td>
+                  <td>
+                      <a th:href="@{/propostas/formulario/{id}(id=${veiculo.id})}" class="btn btn-primary btn-sm">
+                          Fazer Proposta
+                      </a>
+                  </td>
                 </tr>
               </tbody>
             </table>

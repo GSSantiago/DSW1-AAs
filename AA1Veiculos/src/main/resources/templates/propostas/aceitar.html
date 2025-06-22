@@ -1,0 +1,15 @@
+<form th:action="@{/propostas/aceitar}" th:object="${proposta}" method="post" class="mt-4">
+    <input type="hidden" th:field="*{id}"/>
+
+    <div class="form-group">
+        <label for="linkReuniao">Link da Videoconferência</label>
+        <input type="text" class="form-control" id="linkReuniao" th:field="*{linkReuniao}" required/>
+    </div>
+
+    <div class="form-group">
+        <label for="horarioReuniao">Horário da Reunião</label>
+        <input type="datetime-local" class="form-control" id="horarioReuniao" th:field="*{horarioReuniao}" required/>
+    </div>
+
+    <button type="submit" class="btn btn-success">Confirmar Aceitação</button>
+</form>

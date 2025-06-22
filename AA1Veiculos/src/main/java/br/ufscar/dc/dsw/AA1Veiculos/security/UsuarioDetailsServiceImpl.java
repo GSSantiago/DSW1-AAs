@@ -21,16 +21,11 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService {
     private static final String ADMIN_EMAIL = "admin@admin.com";
     private static final String ADMIN_SENHA = "$2a$10$H/F92qlL0UebZC4GribOlOv1Ut9ZY3W7hJ9mnSlLGK5soK.2nNHCS"; 
     
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         if (email.equalsIgnoreCase(ADMIN_EMAIL)) {
-            return User.builder()
-                    .username(ADMIN_EMAIL)
-                    .password(ADMIN_SENHA)
-                    .roles("ADMIN")
-                    .build();
+            return new UsuarioDetails(ADMIN_EMAIL, ADMIN_SENHA, "ROLE_ADMIN");
         }
 
         Cliente cliente = clienteDAO.findByEmail(email);
