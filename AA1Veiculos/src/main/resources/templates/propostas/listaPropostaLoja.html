@@ -7,7 +7,7 @@
 
         <div class="card shadow-sm mb-4">
             <div class="card-header d-flex align-items-center tertiary-bg text-white">
-                <h5 class="mb-0 flex-grow-1">Propostas Recebidas</h5>
+                <h5 class="mb-0 flex-grow-1" th:text="#{propostas.recebidas.titulo}">Propostas Recebidas</h5>
             </div>
 
             <div class="card-body p-0">
@@ -15,12 +15,12 @@
                     <table class="table table-striped table-hover table-sm mb-0">
                         <thead class="thead-light">
                         <tr>
-                            <th>Veículo</th>
-                            <th>Cliente</th>
-                            <th>Valor Proposta</th>
-                            <th>Condições Pagamento</th>
-                            <th>Status</th>
-                            <th>Ações</th>
+                            <th th:text="#{propostas.tabela.veiculo}">Veículo</th>
+                            <th th:text="#{propostas.tabela.cliente}">Cliente</th>
+                            <th th:text="#{propostas.tabela.valor}">Valor Proposta</th>
+                            <th th:text="#{propostas.tabela.condicoes}">Condições Pagamento</th>
+                            <th th:text="#{propostas.tabela.status}">Status</th>
+                            <th th:text="#{propostas.tabela.acoes}">Ações</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -31,8 +31,8 @@
                             <td th:text="${proposta.condicoesPagamento}">À vista</td>
                             <td th:text="${proposta.status}">ABERTO</td>
                             <td>
-                                <a th:href="@{/propostas/aceitar/{id}(id=${proposta.id})}" class="btn btn-success btn-sm mb-1">Aceitar</a>
-                                <a th:href="@{/propostas/recusar/{id}(id=${proposta.id})}" class="btn btn-danger btn-sm">Recusar</a>
+                                <a th:href="@{/propostas/aceitar/{id}(id=${proposta.id})}" class="btn btn-success btn-sm mb-1" th:text="#{propostas.botao.aceitar}">Aceitar</a>
+                                <a th:href="@{/propostas/recusar/{id}(id=${proposta.id})}" class="btn btn-danger btn-sm" th:text="#{propostas.botao.recusar}">Recusar</a>
                             </td>
                         </tr>
                         </tbody>
