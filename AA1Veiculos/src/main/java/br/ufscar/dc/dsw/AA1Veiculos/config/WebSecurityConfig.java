@@ -39,14 +39,14 @@ public class WebSecurityConfig {
                 .authenticationProvider(authenticationProvider())
 
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/error", "/login", "/login/**", "/home/**", "/veiculos", "/veiculos/listar", "/js/**",
+                        .requestMatchers("/error", "/login", "/login/**", "/home/**", "/veiculos", "/veiculos/listar", "/imagem/**", "/js/**",
                                 "/css/**", "/image/**", "/webjars/**")
                         .permitAll()
                         .requestMatchers("/veiculos/cadastrar", "/veiculos/editar/**", "/veiculos/excluir/**",
                         		"/veiculos/salvar/**","/loja/veiculos", "/veiculos/meus")
-                        .hasAuthority("ROLE_LOJA")
-                        .requestMatchers("/clientes/**", "/lojas/**", "/veiculos/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/propostas/**").hasAuthority("ROLE_CLIENTE")
+                        .hasAnyAuthority("ROLE_LOJA0", "ROLE_ADMIN")
+                        .requestMatchers("/clientes/**", "/lojas/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/propostas/**", "/logout").hasAnyAuthority("ROLE_CLIENTE", "ROLE_ADMIN")
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form

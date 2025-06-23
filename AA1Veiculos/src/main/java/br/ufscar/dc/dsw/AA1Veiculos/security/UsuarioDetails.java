@@ -18,6 +18,10 @@ public class UsuarioDetails implements UserDetails {
         this.usuario = usuario;
         this.authorities = List.of(new SimpleGrantedAuthority(role));
     }
+    
+    public Long getId() {
+    	return usuario.getId();
+    }
 
     public Usuario getUsuario() {
         return usuario;

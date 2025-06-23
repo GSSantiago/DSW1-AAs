@@ -36,7 +36,7 @@ public class ImagemController {
 	        return ResponseEntity.noContent().build();
 	    }
 		
-	    MediaType contentType = image.getContentType() == "image/png" ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG;
+		MediaType contentType = MediaType.parseMediaType(image.getContentType());
 	    ByteArrayResource resource = new ByteArrayResource(image.getDados());
 
 	    return ResponseEntity
