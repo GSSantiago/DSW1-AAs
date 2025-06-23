@@ -15,22 +15,27 @@
       <div th:replace="~{fragments/header::cabecalho}"></div>
       <main role="main" class="container my-3">
             <div class="jumbotron text-center tertiary-bg">
-                  <h1 class="display-4" th:text="#{admin.home.title}"></h1>                   <p class="lead">Sistema para compra e venda de veículos</p>                   <hr class="my-4">
-                  <p>Use o menu acima para navegar pelas funcionalidades de clientes, lojas e veículos.</p>                   <a class="btn btn-secondary-custom btn-lg" th:href="@{/veiculos}" role="button" th:text="#{veiculo.listar.titulo}"></a>
+                  <h1 class="display-4" th:text="#{admin.home.title}"></h1>                   
+				  <p class="lead" th:text="#{lead.message}"></p>                   
+				  <hr class="my-4">
+				  <a class="btn btn-secondary-custom btn-lg" th:href="@{/veiculos}" role="button" th:text="#{veiculo.listar.titulo}"></a>
             </div>
 
             <div class="row">
                   <div class="col-md-4">
                         <h2 th:text="#{cliente.menu}"></h2>
-                        <p>Cadastre e gerencie clientes. Requer login de administrador.</p>                         <p><a class="btn btn-secondary-custom" th:href="@{/clientes}" role="button" th:text="#{admin.home.botao.acessar} + ' »'"></a></p>
+                        <p th:text="#{home.cliente.message}"></p>                         
+						<p><a class="btn btn-secondary-custom" th:href="@{/clientes}" role="button" th:text="#{admin.home.botao.acessar} + ' »'"></a></p>
                   </div>
                   <div class="col-md-4">
                         <h2 th:text="#{loja.menu}"></h2>
-                        <p>Cadastre e gerencie lojas de veículos. Requer login de administrador.</p>                         <p><a class="btn btn-secondary-custom" th:href="@{/lojas}" role="button" th:text="#{admin.home.botao.acessar} + ' »'"></a></p>
+                        <p th:text="#{home.loja.message}"></p>                         
+						<p><a class="btn btn-secondary-custom" th:href="@{/lojas}" role="button" th:text="#{admin.home.botao.acessar} + ' »'"></a></p>
                   </div>
                   <div class="col-md-4">
                         <h2 th:text="#{veiculo.menu}"></h2>
-                        <p>Visualize todos os veículos disponíveis sem necessidade de login.</p>                         <p><a class="btn btn-secondary-custom" th:href="@{/veiculos}" role="button" th:text="#{admin.home.botao.acessar} + ' »'"></a></p>
+                        <p th:text="#{home.veiculo.message}"></p>                         
+						<p><a class="btn btn-secondary-custom" th:href="@{/veiculos}" role="button" th:text="#{admin.home.botao.acessar} + ' »'"></a></p>
                   </div>
             </div>
       </main>
