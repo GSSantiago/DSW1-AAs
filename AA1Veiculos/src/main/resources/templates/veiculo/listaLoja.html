@@ -33,7 +33,7 @@
                   <td th:text="${veiculo.placa}">ABC-1234</td>
                   <td th:text="${veiculo.modelo}">Modelo X</td>
                   <td th:text="${veiculo.ano}">2020</td>
-                  <td th:text="|${#numbers.formatCurrency(veiculo.valor)}|">R$ 50.000,00</td>
+				  <td th:text="|R$ ${#numbers.formatDecimal(veiculo.valor, 2, 'POINT', 2, 'COMMA')}|">R$ 50.000,00</td>
 				  <td th:text="${veiculo.chassi}">ABCDEF1234</td>
 				  <td th:text="|${#numbers.formatDecimal(veiculo.quilometragem,0, 'POINT', 0,'COMMA')} kM|"></td>
                 </tr>

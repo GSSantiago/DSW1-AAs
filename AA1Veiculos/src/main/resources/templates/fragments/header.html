@@ -26,11 +26,11 @@
                 </li>
 
                 <li class="nav-item" sec:authorize="hasAuthority('ROLE_CLIENTE')">
-                    <a class="nav-link" th:href="@{/propostas/listaCliente}" role="button">Propostas</a>
+                    <a class="nav-link" th:href="@{/propostas/listaCliente}" th:text="#{proposta.menu}" role="button">Propostas</a>
                 </li>
 
                 <li class="nav-item" sec:authorize="hasAuthority('ROLE_LOJA')">
-                    <a class="nav-link" th:href="@{/propostas/listaPropostaLoja}" role="button">Propostas</a>
+                    <a class="nav-link" th:href="@{/propostas/listaPropostaLoja}" th:text="#{proposta.menu}" role="button">Propostas</a>
                 </li>
 
                 <li class="nav-item">
@@ -59,8 +59,8 @@
                         <span th:text="#{language.label}">Idioma</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" th:href="@{/?lang=pt}" th:text="#{portuguese}">Português</a>
-                        <a class="dropdown-item" th:href="@{/?lang=en}" th:text="#{english}">English</a>
+                        <a class="dropdown-item" th:href="@{?lang=pt}" th:text="#{portuguese}">Português</a>
+                        <a class="dropdown-item" th:href="@{?lang=en}" th:text="#{english}">English</a>
                     </div>
                 </li>
 
