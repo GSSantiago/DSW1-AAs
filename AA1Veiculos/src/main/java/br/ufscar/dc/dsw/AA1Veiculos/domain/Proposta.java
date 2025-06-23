@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Proposta", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "cliente_id", "veiculo_id", "status" })
 })
-public class Proposta {
+public class Proposta extends AbstractEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +50,8 @@ public class Proposta {
 
     @Size(max = 500)
     private String linkReuniao;
+
+    private LocalDateTime horarioReuniao;
 
     // Getters e Setters
 
@@ -122,6 +125,14 @@ public class Proposta {
 
     public void setLinkReuniao(String linkReuniao) {
         this.linkReuniao = linkReuniao;
+    }
+
+    public LocalDateTime getHorarioReuniao(){
+        return horarioReuniao;
+    }
+
+    public void setHorarioReuniao(LocalDateTime horarioReuniao){
+        this.horarioReuniao = horarioReuniao;
     }
 }
 

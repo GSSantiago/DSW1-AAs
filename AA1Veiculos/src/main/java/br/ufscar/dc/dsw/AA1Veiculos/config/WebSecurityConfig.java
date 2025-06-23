@@ -46,7 +46,7 @@ public class WebSecurityConfig {
                         		"/veiculos/salvar/**","/loja/veiculos", "/veiculos/meus")
                         .hasAuthority("ROLE_LOJA")
                         .requestMatchers("/clientes/**", "/lojas/**", "/veiculos/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/propostas/**").hasAuthority("ROLE_CLIENTE")
+                        .requestMatchers("/propostas/**").hasAnyAuthority("ROLE_CLIENTE", "ROLE_LOJA")
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form

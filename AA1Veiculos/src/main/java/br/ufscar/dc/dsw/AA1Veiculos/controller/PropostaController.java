@@ -4,7 +4,7 @@ import br.ufscar.dc.dsw.AA1Veiculos.dao.IPropostaDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.dao.IVeiculoDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.*;
 import br.ufscar.dc.dsw.AA1Veiculos.security.UsuarioDetails;
-//import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IEmailService;
+import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IEmailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,8 +28,8 @@ public class PropostaController {
     @Autowired
     private IVeiculoDAO veiculoDAO;
 
-    /*@Autowired
-    private IEmailService emailService;*/
+    @Autowired
+    private IEmailService emailService;
 
 
     @GetMapping("/formulario/{veiculoId}")
@@ -57,11 +57,12 @@ public class PropostaController {
         Veiculo veiculo = veiculoDAO.findById(proposta.getVeiculo().getId())
                                     .orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado."));
         proposta.setVeiculo(veiculo);
-
+        
+        /* 
         if (result.hasErrors()) {
             model.addAttribute("veiculo", veiculo); 
             return "propostas/formulario";
-        }
+        }*/
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
@@ -109,22 +110,24 @@ public class PropostaController {
     }
 
 
-    @GetMapping("/listaLoja")
+    @GetMapping("/listaPropostaLoja")
     @PreAuthorize("hasAuthority('ROLE_LOJA')")
     public String listarPropostasLoja(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
 
+        
         if (!(usuarioDetails.getUsuario() instanceof Loja)) {
             model.addAttribute("erro", "Erro: Usuário autenticado não é uma loja.");
             return "error/accessDenied"; 
         }
+        
         Loja loja = (Loja) usuarioDetails.getUsuario();
 
         List<Proposta> propostas = propostaDAO.findAllByVeiculoLoja(loja);
         model.addAttribute("propostas", propostas);
 
-        return "propostas/listaLoja";
+        return "propostas/listaPropostaLoja";
     }
 
 
@@ -140,37 +143,34 @@ public class PropostaController {
 
     @PostMapping("/aceitar")
     @PreAuthorize("hasAuthority('ROLE_LOJA')")
-    public String aceitarProposta(@RequestParam Long id,
-                                  @RequestParam String linkReuniao,
-                                  @RequestParam String horario,
-                                  RedirectAttributes ra) {
-        Proposta proposta = propostaDAO.findById(id)
-                                    .orElseThrow(() -> new IllegalArgumentException("Proposta não encontrada."));
-
+    public String aceitarProposta(@ModelAttribute("proposta") Proposta proposta,
+                                RedirectAttributes ra) {
+        Proposta propostaExistente = propostaDAO.findById(proposta.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Proposta não encontrada."));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
         Loja loja = (Loja) usuarioDetails.getUsuario();
 
-        if (!proposta.getVeiculo().getLoja().equals(loja)) {
+        if (!propostaExistente.getVeiculo().getLoja().equals(loja)) {
             ra.addFlashAttribute("erro", "Você não tem permissão para aceitar esta proposta.");
-            return "redirect:/propostas/listaLoja";
+            return "redirect:/propostas/listaPropostaLoja";
         }
 
+        propostaExistente.setStatus(StatusProposta.ACEITO);
+        propostaExistente.setLinkReuniao(proposta.getLinkReuniao());
+        propostaExistente.setHorarioReuniao(proposta.getHorarioReuniao());
 
-        proposta.setStatus(StatusProposta.ACEITO);
-        proposta.setLinkReuniao(linkReuniao);
-
-        propostaDAO.save(proposta);
+        propostaDAO.save(propostaExistente);
 
         ra.addFlashAttribute("mensagem", "Proposta aceita com sucesso!");
 
-        // String mensagemEmail = "Sua proposta para o veículo " + proposta.getVeiculo().getModelo() + " foi aceita!\n";
-        // mensagemEmail += "Detalhes da reunião: " + horario + "\n";
-        // mensagemEmail += "Link da reunião: " + linkReuniao;
-        // emailService.enviarEmail(proposta.getCliente().getEmail(), "Proposta Aceita", mensagemEmail);
+        String mensagemEmail = "Sua proposta para o veículo " + proposta.getVeiculo().getModelo() + " foi aceita!\n";
+        mensagemEmail += "Detalhes da reunião: " + propostaExistente.getHorarioReuniao() + "\n";
+        mensagemEmail += "Link da reunião: " + propostaExistente.getLinkReuniao();
+        emailService.enviarEmail(proposta.getCliente().getEmail(), "Proposta Aceita", mensagemEmail);
 
-        return "redirect:/propostas/listaLoja";
+        return "redirect:/propostas/listaPropostaLoja";
     }
 
 
@@ -185,35 +185,46 @@ public class PropostaController {
 
     @PostMapping("/recusar")
     @PreAuthorize("hasAuthority('ROLE_LOJA')")
-    public String recusarProposta(@RequestParam Long id,
-                                  @RequestParam(required = false) String contraProposta,
+    public String recusarProposta(@ModelAttribute("proposta") Proposta propostaAtualizada,
                                   RedirectAttributes ra) {
-        Proposta proposta = propostaDAO.findById(id)
-                                    .orElseThrow(() -> new IllegalArgumentException("Proposta não encontrada."));
+        Proposta proposta = propostaDAO.findById(propostaAtualizada.getId())
+                                     .orElseThrow(() -> new IllegalArgumentException("Proposta não encontrada."));
 
-        // Basic check to ensure the proposal belongs to the authenticated store's vehicle
+       
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
         Loja loja = (Loja) usuarioDetails.getUsuario();
 
         if (!proposta.getVeiculo().getLoja().equals(loja)) {
             ra.addFlashAttribute("erro", "Você não tem permissão para recusar esta proposta.");
-            return "redirect:/propostas/listaLoja";
+            return "redirect:/propostas/listaPropostaLoja";
         }
 
-
         proposta.setStatus(StatusProposta.NAO_ACEITO);
-        proposta.setContraProposta(contraProposta);
+        
+        // Update the specific fields from the form
+        proposta.setValorProposta(propostaAtualizada.getValorProposta()); // Assuming Proposta has valorProposta
+        proposta.setCondicoesPagamento(propostaAtualizada.getCondicoesPagamento()); // Assuming Proposta has condicoesPagamento
+        proposta.setContraProposta(propostaAtualizada.getContraProposta()); // This one was already there
+
         propostaDAO.save(proposta);
 
         ra.addFlashAttribute("mensagem", "Proposta recusada com sucesso!");
 
-        // String mensagemEmail = "Sua proposta para o veículo " + proposta.getVeiculo().getModelo() + " foi recusada.";
-        // if (contraProposta != null && !contraProposta.isBlank()) {
-        //     mensagemEmail += "\nContra proposta da loja: " + contraProposta;
-        // }
-        // emailService.enviarEmail(proposta.getCliente().getEmail(), "Proposta Recusada", mensagemEmail);
+        String mensagemEmail = "Sua proposta para o veículo " + proposta.getVeiculo().getModelo() + " foi recusada.";
+        if (proposta.getContraProposta() != null && !proposta.getContraProposta().isBlank()) {
+            mensagemEmail += "\nContra proposta da loja: " + proposta.getContraProposta();
+        }
+        // You might want to add valorProposta and condicoesPagamento to the email as well
+        if (proposta.getValorProposta() != null) {
+            mensagemEmail += "\nValor da contra proposta: " + proposta.getValorProposta();
+        }
+        if (proposta.getCondicoesPagamento() != null && !proposta.getCondicoesPagamento().isBlank()) {
+            mensagemEmail += "\nCondições de pagamento: " + proposta.getCondicoesPagamento();
+        }
 
-        return "redirect:/propostas/listaLoja";
+        emailService.enviarEmail(proposta.getCliente().getEmail(), "Proposta Recusada", mensagemEmail);
+
+        return "redirect:/propostas/listaPropostaLoja";
     }
 }
