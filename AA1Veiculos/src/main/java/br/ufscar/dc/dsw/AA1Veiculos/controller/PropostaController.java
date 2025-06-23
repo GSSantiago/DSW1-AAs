@@ -116,7 +116,7 @@ public class PropostaController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
 
-        
+
         if (!(usuarioDetails.getUsuario() instanceof Loja)) {
             model.addAttribute("erro", "Erro: Usuário autenticado não é uma loja.");
             return "error/accessDenied"; 
@@ -165,10 +165,10 @@ public class PropostaController {
 
         ra.addFlashAttribute("mensagem", "Proposta aceita com sucesso!");
 
-        String mensagemEmail = "Sua proposta para o veículo " + proposta.getVeiculo().getModelo() + " foi aceita!\n";
+        String mensagemEmail = "Sua proposta para o veículo " + propostaExistente.getVeiculo().getModelo() + " foi aceita!\n";
         mensagemEmail += "Detalhes da reunião: " + propostaExistente.getHorarioReuniao() + "\n";
         mensagemEmail += "Link da reunião: " + propostaExistente.getLinkReuniao();
-        emailService.enviarEmail(proposta.getCliente().getEmail(), "Proposta Aceita", mensagemEmail);
+        emailService.enviarEmail(propostaExistente.getCliente().getEmail(), "Proposta Aceita", mensagemEmail);
 
         return "redirect:/propostas/listaPropostaLoja";
     }
@@ -202,10 +202,9 @@ public class PropostaController {
 
         proposta.setStatus(StatusProposta.NAO_ACEITO);
         
-        // Update the specific fields from the form
-        proposta.setValorProposta(propostaAtualizada.getValorProposta()); // Assuming Proposta has valorProposta
-        proposta.setCondicoesPagamento(propostaAtualizada.getCondicoesPagamento()); // Assuming Proposta has condicoesPagamento
-        proposta.setContraProposta(propostaAtualizada.getContraProposta()); // This one was already there
+        proposta.setValorProposta(propostaAtualizada.getValorProposta()); 
+        proposta.setCondicoesPagamento(propostaAtualizada.getCondicoesPagamento()); 
+        proposta.setContraProposta(propostaAtualizada.getContraProposta()); 
 
         propostaDAO.save(proposta);
 
@@ -215,7 +214,7 @@ public class PropostaController {
         if (proposta.getContraProposta() != null && !proposta.getContraProposta().isBlank()) {
             mensagemEmail += "\nContra proposta da loja: " + proposta.getContraProposta();
         }
-        // You might want to add valorProposta and condicoesPagamento to the email as well
+
         if (proposta.getValorProposta() != null) {
             mensagemEmail += "\nValor da contra proposta: " + proposta.getValorProposta();
         }

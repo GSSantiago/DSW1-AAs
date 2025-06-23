@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "Proposta", uniqueConstraints = {
     @UniqueConstraint(columnNames = { "cliente_id", "veiculo_id", "status" })
@@ -51,6 +53,7 @@ public class Proposta extends AbstractEntity<Long> {
     @Size(max = 500)
     private String linkReuniao;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime horarioReuniao;
 
     // Getters e Setters
