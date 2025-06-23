@@ -100,7 +100,7 @@ public class Aa1VeiculosApplication {
             
             if (clienteDAO.count() == 0) {
                 Cliente c1 = new Cliente();
-                c1.setEmail("maria.santos@example.com");
+                c1.setEmail("w1374066@gmail.com");
                 c1.setSenha(encoder.encode("maria123"));
                 c1.setCpf("12345678901");
                 c1.setNome("Maria Santos");
@@ -118,6 +118,7 @@ public class Aa1VeiculosApplication {
                 c2.setSexo("M");
                 c2.setDataNascimento(LocalDate.of(1985, 8, 30));
                 clienteDAO.save(c2);
+
             }
         };
     }

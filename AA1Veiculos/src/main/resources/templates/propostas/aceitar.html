@@ -1,15 +1,42 @@
-<form th:action="@{/propostas/aceitar}" th:object="${proposta}" method="post" class="mt-4">
-    <input type="hidden" th:field="*{id}"/>
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+</html>
 
-    <div class="form-group">
-        <label for="linkReuniao">Link da Videoconferência</label>
-        <input type="text" class="form-control" id="linkReuniao" th:field="*{linkReuniao}" required/>
+
+<div class="container mt-5">
+    <div class="card shadow rounded">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">Aceitar Proposta</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form th:action="@{/propostas/aceitar}" th:object="${proposta}" method="post">
+
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="mb-3">
+                    <label for="linkReuniao" class="form-label fw-semibold">Link da Videoconferência</label>
+                    <input type="text" class="form-control" id="linkReuniao" th:field="*{linkReuniao}" placeholder="Insira o link da reunião" required/>
+                </div>
+
+                <div class="mb-3">
+                    <label for="horarioReuniao" class="form-label fw-semibold">Horário da Reunião</label>
+                    <input type="datetime-local" class="form-control" id="horarioReuniao" th:field="*{horarioReuniao}" required/>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success btn-sm">
+                        <i class="oi oi-check"></i> Confirmar Aceitação
+                    </button>
+
+                    <a th:href="@{/propostas/listaPropostaLoja}" class="btn btn-danger btn-sm">
+                        <i class="oi oi-x"></i> Cancelar
+                    </a>
+                </div>
+
+            </form>
+        </div>
     </div>
+</div>
 
-    <div class="form-group">
-        <label for="horarioReuniao">Horário da Reunião</label>
-        <input type="datetime-local" class="form-control" id="horarioReuniao" th:field="*{horarioReuniao}" required/>
-    </div>
 
-    <button type="submit" class="btn btn-success">Confirmar Aceitação</button>
-</form>
