@@ -44,9 +44,9 @@ public class WebSecurityConfig {
                         .permitAll()
                         .requestMatchers("/veiculos/cadastrar", "/veiculos/editar/**", "/veiculos/excluir/**",
                         		"/veiculos/salvar/**","/loja/veiculos", "/veiculos/meus")
-                        .hasAnyAuthority("ROLE_LOJA", "ROLE_ADMIN")
-                        .requestMatchers("/clientes/**", "/lojas/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/propostas/**").hasAnyAuthority("ROLE_CLIENTE", "ROLE_LOJA","ROLE_ADMIN")
+                        .hasAnyRole("LOJA", "ADMIN")
+                        .requestMatchers("/clientes/**", "/lojas/**").hasRole("ADMIN")
+                        .requestMatchers("/propostas/**").hasAnyRole("CLIENTE", "LOJA","ADMIN")
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form
@@ -60,6 +60,5 @@ public class WebSecurityConfig {
 
         return http.build();
     }
-
 
 }

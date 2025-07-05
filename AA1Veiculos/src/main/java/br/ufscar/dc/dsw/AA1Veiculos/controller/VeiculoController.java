@@ -18,11 +18,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Imagem;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Usuario;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Veiculo;
 import br.ufscar.dc.dsw.AA1Veiculos.security.UsuarioDetails;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IImagemService;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.ILojaService;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IVeiculoService;
+import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IUsuarioService;
 
 @Controller
 @RequestMapping("/veiculos")
@@ -36,6 +38,9 @@ public class VeiculoController {
     
     @Autowired
     private IImagemService imagemService;
+
+    @Autowired
+    private IUsuarioService usuarioService;
     
     @GetMapping
     public String redirect() {
@@ -57,7 +62,7 @@ public class VeiculoController {
         }
         return "veiculo/lista";
     }
-
+    
     @GetMapping("/meus")
     @PreAuthorize("hasAuthority('ROLE_LOJA')")
     public String listarVeiculosDaLoja(ModelMap model, @AuthenticationPrincipal UsuarioDetails user) {
@@ -65,12 +70,12 @@ public class VeiculoController {
         System.out.println("Loja logada: " + user.getUsername());
         System.out.println("Authorities atuais: " + user.getAuthorities());
 
-        Loja loja = lojaService.buscarPorEmail(user.getUsername());
+        Loja loja = lojaService.buscarPorEmailUsuario(user.getUsername());
         List<Veiculo> veiculos = veiculoService.buscarTodosPorLoja(loja);
         model.addAttribute("veiculos", veiculos);
         return "veiculo/listaLoja"; 
     }
-
+    
 	@PostMapping("/salvar")
 	@PreAuthorize("hasAuthority('ROLE_LOJA', 'ROLE_ADMIN')")
 	public String salvar(@Valid Veiculo veiculo, BindingResult result,

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Cliente;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IClienteService;
@@ -58,8 +59,15 @@ public class ClienteController {
     }
 
     @GetMapping("/remover/{id}")
-    public String remover(@PathVariable("id") Long id) {
+    public String remover(@PathVariable("id") Long id, RedirectAttributes attr) {
+        Cliente cliente = clienteService.buscarPorId(id);
+        if (cliente.temPropostasEmAberto()) {
+            attr.addFlashAttribute("error", "Não é possível remover o cliente pois há propostas em aberto.");
+            return "redirect:/clientes/listar";
+        }
         clienteService.excluir(id);
-        return "redirect:/clientes";
+        attr.addFlashAttribute("sucess", "Cliente removido com sucesso.");
+        return "redirect:/clientes/listar";
     }
+    
 }

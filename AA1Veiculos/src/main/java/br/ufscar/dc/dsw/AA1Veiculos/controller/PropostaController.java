@@ -4,7 +4,9 @@ import br.ufscar.dc.dsw.AA1Veiculos.dao.IPropostaDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.dao.IVeiculoDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.*;
 import br.ufscar.dc.dsw.AA1Veiculos.security.UsuarioDetails;
+import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IClienteService;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IEmailService;
+import br.ufscar.dc.dsw.AA1Veiculos.service.spec.ILojaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +29,9 @@ public class PropostaController {
 
     @Autowired
     private IVeiculoDAO veiculoDAO;
+
+    @Autowired
+    private IClienteService clienteService;
 
     @Autowired
     private IEmailService emailService;
@@ -89,7 +94,16 @@ public class PropostaController {
 
         return "redirect:/propostas/listaCliente";
     }
-
+ 
+    @GetMapping("/clienteTemPropostaAberta/{id}")
+    @ResponseBody
+    public boolean clienteTemPropostaAberta(@PathVariable Long id) {
+        Cliente cliente = clienteService.buscarPorId(id);
+        if (cliente == null) {
+            return false;
+        }
+        return propostaDAO.existsByClienteAndStatus(cliente, StatusProposta.ABERTO);
+    }
 
     @GetMapping("/listaCliente")
     @PreAuthorize("hasAuthority('ROLE_CLIENTE')")

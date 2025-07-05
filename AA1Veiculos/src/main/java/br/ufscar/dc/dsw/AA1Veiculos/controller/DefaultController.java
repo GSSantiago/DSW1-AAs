@@ -22,13 +22,13 @@ public class DefaultController {
         for (GrantedAuthority auth : authorities) {
             String role = auth.getAuthority();
 
-            if (role.equals("ROLE_ADMIN")) {
+            if (role.equals("ADMIN")) {
                 response.sendRedirect(request.getContextPath() + "/clientes");
                 return;
-            } else if (role.equals("ROLE_LOJA")) {
+            } else if (role.equals("LOJA")) {
                 response.sendRedirect(request.getContextPath() + "/veiculos/meus");
                 return;
-            } else if (role.equals("ROLE_CLIENTE")) {
+            } else if (role.equals("CLIENTE")) {
                 response.sendRedirect(request.getContextPath() + "/veiculos");
                 return;
             }

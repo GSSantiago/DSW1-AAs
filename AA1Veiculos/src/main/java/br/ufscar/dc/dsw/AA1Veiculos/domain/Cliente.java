@@ -3,20 +3,27 @@ package br.ufscar.dc.dsw.AA1Veiculos.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.List;
+import br.ufscar.dc.dsw.AA1Veiculos.validation.UniqueCPF;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "Cliente")
-public class Cliente extends Usuario {
+public class Cliente extends AbstractEntity<Long> {
+
+    @UniqueCPF (message = "{Unique.CPF}")
+	@NotBlank
+	@Size(min = 11, max = 11, message = "{cliente.cpf.invalido}")
+	@Column(nullable = false, unique = true, length = 60)
+	private String cpf;
 
     @NotBlank
-    @Pattern(regexp = "\\d{11}")
-    @Column(nullable = false, unique = true, length = 11)
-    private String cpf;
+	@Size(min = 3, max = 60)
+	@Column(nullable = false, unique = true, length = 60)
+	private String nome;
 
-    @NotBlank
-    @Size(max = 255)
-    private String nome;
+    @OneToMany(mappedBy = "cliente")
+    private List<Proposta> propostas;
 
     @NotBlank
     @Pattern(regexp = "\\d{10,15}")
@@ -29,6 +36,10 @@ public class Cliente extends Usuario {
     @NotNull
     @Past
     private LocalDate dataNascimento;
+
+    public List<Proposta> getPropostas() {
+        return propostas;
+    }
 
     public String getCpf() {
         return cpf;
@@ -69,4 +80,23 @@ public class Cliente extends Usuario {
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+    public boolean temPropostasEmAberto() {
+        if (propostas == null)
+            return false;
+        return propostas.stream().anyMatch(p -> p.isEmAberto());
+    }
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "usuario_id", unique = true, nullable = false)
+    private Usuario usuario;
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
 }
