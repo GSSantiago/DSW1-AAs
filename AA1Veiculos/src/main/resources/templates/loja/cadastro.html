@@ -55,8 +55,10 @@
 
         <div class="form-group col-md-6">
           <label for="cnpj" th:text="#{loja.cnpj}"></label>
-          <input type="text" id="cnpj" class="form-control" th:field="*{cnpj}"
-                 th:classappend="${#fields.hasErrors('cnpj')}? 'is-invalid'">
+        
+          <input type="text" id="cnpj" class="form-control" th:field="*{cnpj}" placeholder="__.___.___/____-__"
+            data-mask="00.000.000/0000-00" th:classappend="${#fields.hasErrors('cnpj')}? 'is-invalid'">
+        
           <div class="invalid-feedback">
             <span th:errors="*{cnpj}"></span>
           </div>
