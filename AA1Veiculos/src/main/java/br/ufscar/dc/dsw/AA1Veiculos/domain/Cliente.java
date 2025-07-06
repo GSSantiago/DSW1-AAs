@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import br.ufscar.dc.dsw.AA1Veiculos.validation.UniqueCPF;
 
 @SuppressWarnings("serial")
@@ -16,8 +13,8 @@ public class Cliente extends AbstractEntity<Long> {
 
     @UniqueCPF (message = "{Unique.CPF}")
 	@NotBlank
-	@Size(min = 14, max = 14, message = "{cliente.cpf.invalido}")
-	@Column(nullable = false, unique = true, length = 14)
+	@Size(min = 11, max = 11, message = "{cliente.cpf.invalido}")
+	@Column(nullable = false, unique = true, length = 60)
 	private String cpf;
 
     @NotBlank
@@ -38,8 +35,6 @@ public class Cliente extends AbstractEntity<Long> {
 
     @NotNull
     @Past
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @Column(nullable = false, columnDefinition = "DATE")
     private LocalDate dataNascimento;
 
     public List<Proposta> getPropostas() {
