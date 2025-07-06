@@ -90,10 +90,6 @@ public class Proposta extends AbstractEntity<Long> {
         this.dataProposta = dataProposta;
     }
 
-    public boolean isEmAberto() {
-        return this.status == StatusProposta.ABERTO;
-    }
-
     public BigDecimal getValorProposta() {
         return valorProposta;
     }
