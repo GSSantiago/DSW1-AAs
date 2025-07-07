@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.AA1Veiculos.domain;
 
 import java.math.BigDecimal;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +14,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @SuppressWarnings("serial")
@@ -29,37 +34,44 @@ public class Veiculo extends AbstractEntity<Long> {
 	
 	@UniquePlaca
 	@NotBlank(message = "{NotBlank.veiculo.placa}")
-	@Size(max = 7)
+    @Pattern(regexp = "[A-Z]{3}[0-9][A-Z0-9][0-9]{2}", message = "{Pattern.veiculo.placa}")
+    @Size(min = 7, max = 7, message = "Placa deve ter exatamente 7 caracteres")
 	@Column(nullable = false, length = 7)
 	private String placa;
 	
 	@NotBlank(message = "{NotBlank.veiculo.modelo}")
-	@Size(max = 20)
+	@Size(min= 1, max = 20)
 	@Column(nullable = false, length = 20)
 	private String modelo;
 	
 	@NotBlank(message = "{NotBlank.veiculo.cnpj}")
-	@Size(min = 14, max = 18, message = "{Size.editora.CNPJ}")
+	@Size(min = 14, max = 18, message = "{cnpj.size}")
 	@Column(nullable = false, length = 60)
 	private String CNPJ;
 	
 	@UniqueChassi
 	@NotBlank(message = "{NotBlank.veiculo.chassi}")
+    @Pattern(regexp = "[A-HJ-NPR-Z0-9]{17}", message = "{Pattern.veiculo.chassi}")
 	@Column(nullable = false, unique = true, length = 17)
 	private String chassi;
 	
 	@NotNull(message = "{NotNull.veiculo.ano}")
+    @Min(value = 1886, message = "{Min.veiculo.ano}")
+    @Max(value = Year.MAX_VALUE, message = "{Max.veiculo.ano}")
 	@Column(nullable = false, length = 5)
 	private Integer ano;
 	
 	@NotNull(message = "{NotNull.veiculo.quilometragem}")
+    @Min(value = 0, message = "{Min.veiculo.quilometragem}")
 	@Column(nullable = false, length = 12)
 	private Integer quilometragem;
 	
+    @Size(max = 500, message = "{Max.veiculo.descricao}")
 	@Column(nullable = false, length = 500)
 	private String descricao;
 	
 	@NotNull (message = "{NotNull.veiculo.valor}")
+    @DecimalMin(value = "0.0", inclusive = true, message = "{Min.veiculo.valor}")
 	@Column(nullable = false, columnDefinition = "DECIMAL(8,2) DEFAULT 0.0")
 	private BigDecimal valor;
 	

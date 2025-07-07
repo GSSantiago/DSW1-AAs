@@ -22,6 +22,9 @@ public class UsuarioDetails implements UserDetails {
         return Collections.singleton(new SimpleGrantedAuthority(usuario.getRole()));
     }
 
+    public Long getId() {
+    	return usuario.getId();
+    }
 
     public Usuario getUsuario() {
         return usuario;

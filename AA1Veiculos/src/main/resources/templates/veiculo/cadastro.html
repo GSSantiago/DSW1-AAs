@@ -25,17 +25,6 @@
     <form th:action="${veiculo.id == null} ? @{/veiculos/salvar} : @{/veiculos/editar}" 
           th:object="${veiculo}" method="post" enctype="multipart/form-data">
       <div class="form-row">
-        <div class="form-group col-md-6" sec:authorize="hasAuthority('ROLE_ADMIN')">
-          <label for="loja" th:text="#{veiculo.loja.label}"></label>
-          <select id="loja" class="form-control" th:field="*{loja}" 
-                  th:classappend="${#fields.hasErrors('loja')}? 'is-invalid'">
-            <option value="" th:text="#{veiculo.select.default}"></option>
-            <option th:each="loja : ${lojas}" th:value="${loja.id}" th:text="${loja.nome}">Loja X</option>
-          </select>
-          <div class="invalid-feedback">
-            <span th:errors="*{loja}"></span>
-          </div>
-        </div>
 		
 		<input type="hidden" th:value="${#authentication.principal.getId()}" th:attr="name='loja'" />
 		
