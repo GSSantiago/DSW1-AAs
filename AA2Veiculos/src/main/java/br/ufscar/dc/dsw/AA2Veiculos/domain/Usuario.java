@@ -8,7 +8,7 @@ import br.ufscar.dc.dsw.AA2Veiculos.validation.ValidationGroups;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Usuario extends AbstractEntity<Long>  {
+public class Usuario extends AbstractEntity<Long>  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

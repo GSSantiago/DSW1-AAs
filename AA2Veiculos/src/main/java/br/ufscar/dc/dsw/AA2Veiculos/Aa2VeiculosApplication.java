@@ -35,14 +35,12 @@ public class Aa2VeiculosApplication {
         return args -> {
             String adminEmail = "admin@admin.com";
             if (usuarioDAO.findByEmail(adminEmail) == null) {
-                Loja admin = new Loja();
+                Usuario admin = new Usuario();
                 admin.setNome("Administrador");
                 admin.setEmail(adminEmail);
                 admin.setSenha(encoder.encode("admin"));
                 admin.setPapel("ADMIN");
-                admin.setCnpj("00.000.000/0001-00");
-                admin.setDescricao("Administrador do sistema.");
-                lojaDAO.save(admin);
+                usuarioDAO.save(admin);
             }
 
             if (lojaDAO.count() <= 1) {

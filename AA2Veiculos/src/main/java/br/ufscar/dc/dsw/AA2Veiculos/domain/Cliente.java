@@ -30,6 +30,9 @@ public class Cliente extends Usuario {
     @Column(nullable = false)
     private LocalDate nascimento;
     
+    public Cliente() {
+        this.setPapel("CLIENTE");
+    }
 
     public java.time.LocalDate getNascimento() {
         return nascimento;
