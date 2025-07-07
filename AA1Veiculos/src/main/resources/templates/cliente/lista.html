@@ -4,7 +4,7 @@
 </head>
 <body>
 <section class="container my-3" layout:fragment="corpo">
-
+  <div th:replace="~{fragments/alert}"></div>
   <div class="container" id="listagem-clientes">
 
     <div class="card shadow-sm mb-4">
@@ -37,7 +37,7 @@
                 <td th:text="${cliente.cpf}">CPF</td>
                 <td th:text="${cliente.telefone}">Telefone</td>
                 <td th:text="${cliente.sexo}">Sexo</td>
-                <td th:text="${#dates.format(cliente.nascimento, 'dd/MM/yyyy')}">Data</td>
+                <td th:text="${#temporals.format(cliente.nascimento, 'dd/MM/yyyy')}">Data</td>
                 <td>
                   <a class="btn btn-link btn-sm p-0 mr-2"
                      th:href="@{|/clientes/editar/${cliente.id}|}" th:text="#{editar}">Editar</a> |

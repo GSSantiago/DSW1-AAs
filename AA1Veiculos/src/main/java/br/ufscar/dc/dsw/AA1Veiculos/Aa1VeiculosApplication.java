@@ -115,7 +115,7 @@ public class Aa1VeiculosApplication {
                 c1.setCpf("12345678901");
                 c1.setTelefone("11988776655");
                 c1.setSexo("F");
-                c1.setNascimento(java.sql.Date.valueOf(LocalDate.of(1990, 5, 15)));
+                c1.setNascimento(LocalDate.of(1990, 5, 15));
                 c1.setPapel("CLIENTE");
                 clienteDAO.save(c1);
 
@@ -126,7 +126,7 @@ public class Aa1VeiculosApplication {
                 c2.setCpf("10987654321");
                 c2.setTelefone("21999887766");
                 c2.setSexo("M");
-                c2.setNascimento(java.sql.Date.valueOf(LocalDate.of(1985, 8, 30)));
+                c2.setNascimento(LocalDate.of(1985, 8, 30));
                 c2.setPapel("CLIENTE");
                 clienteDAO.save(c2);
             }

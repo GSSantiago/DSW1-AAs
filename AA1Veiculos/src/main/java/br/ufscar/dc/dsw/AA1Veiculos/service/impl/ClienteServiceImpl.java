@@ -21,12 +21,20 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public void salvar(Cliente cliente) {
-        if (!cliente.getSenha().startsWith("$2a$")) {
-            cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
+        if (cliente.getId() == null || cliente.getSenha() != null && !cliente.getSenha().isBlank()) {
+            if (!cliente.getSenha().startsWith("$2a$")) {
+                cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
+            }
+        } else {
+            Cliente existente = dao.findById(cliente.getId()).orElse(null);
+            if (existente != null) {
+                cliente.setSenha(existente.getSenha());
+            }
         }
         cliente.setPapel("CLIENTE");
         dao.save(cliente);
     }
+
 
     @Override
     public void excluir(Long id) {

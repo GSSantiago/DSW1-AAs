@@ -1,5 +1,7 @@
 package br.ufscar.dc.dsw.AA1Veiculos.domain;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -9,8 +11,8 @@ import jakarta.validation.constraints.*;
 @PrimaryKeyJoinColumn(name = "id")
 public class Cliente extends Usuario {
 
-    @NotBlank
-    @Size(max = 14)
+    @NotBlank(message = "{cpf.not.blank}")
+    @Size(min = 14, max = 14, message = "{cpf.size}")
     @Column(nullable = false, unique = true)
     private String cpf;
 
@@ -23,11 +25,19 @@ public class Cliente extends Usuario {
     @Pattern(regexp = "M|F")
     private String sexo;
 
-    @NotNull
-    @Past
-    @Temporal(TemporalType.DATE)
+    @NotNull(message = "{cliente.nascimento.notnull}")
+    @Past(message = "{cliente.nascimento.past}")
     @Column(nullable = false)
-    private java.util.Date nascimento;
+    private LocalDate nascimento;
+    
+
+    public java.time.LocalDate getNascimento() {
+        return nascimento;
+    }
+
+    public void setNascimento(java.time.LocalDate nascimento) {
+        this.nascimento = nascimento;
+    }
 
     public String getCpf() {
         return cpf;
@@ -51,13 +61,5 @@ public class Cliente extends Usuario {
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
-    }
-
-    public java.util.Date getNascimento() {
-        return nascimento;
-    }
-
-    public void setNascimento(java.util.Date nascimento) {
-        this.nascimento = nascimento;
     }
 }

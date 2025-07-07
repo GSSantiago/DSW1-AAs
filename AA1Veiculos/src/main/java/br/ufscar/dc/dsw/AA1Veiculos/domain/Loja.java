@@ -12,7 +12,7 @@ public class Loja extends Usuario {
 
     @UniqueCNPJ
     @NotBlank(message = "{cnpj.not.blank}")
-    @Size(min = 14, max = 18, message = "{cnpj.size}")
+    @Size(min = 18, max = 18, message = "{cnpj.size}")
     @Column(nullable = false, unique = true, length = 18)
     private String cnpj;
 

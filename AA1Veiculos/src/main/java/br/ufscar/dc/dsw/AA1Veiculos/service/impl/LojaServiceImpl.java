@@ -21,10 +21,18 @@ public class LojaServiceImpl implements ILojaService {
 
     @Override
     public void salvar(Loja loja) {
-        if (!loja.getSenha().startsWith("$2a$")) {
+        if (loja.getId() != null) {
+            Loja lojaAntiga = dao.findById(loja.getId()).orElse(null);
+            if (lojaAntiga != null && (loja.getSenha() == null || loja.getSenha().isBlank())) {
+                loja.setSenha(lojaAntiga.getSenha());
+            } else if (!loja.getSenha().startsWith("$2a$")) {
+                loja.setSenha(passwordEncoder.encode(loja.getSenha()));
+            }
+        } else {
             loja.setSenha(passwordEncoder.encode(loja.getSenha()));
         }
-        loja.setPapel("LOJA"); // ← atribui o papel
+
+        loja.setPapel("LOJA");
         dao.save(loja);
     }
 

@@ -23,7 +23,6 @@ public abstract class Usuario extends AbstractEntity<Long>  {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotBlank
     @Size(max = 100)
     private String senha;
 
