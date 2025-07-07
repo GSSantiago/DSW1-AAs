@@ -121,8 +121,8 @@ public class Aa1VeiculosApplication {
                 
                 Cliente c2 = new Cliente();
                 c2.setNome("João Pereira");
-                c2.setEmail("joao.pereira@example.com");
-                c2.setSenha(encoder.encode("joaopass"));
+                c2.setEmail("gui.sw03@gmail.com");
+                c2.setSenha(encoder.encode("gui123"));
                 c2.setCpf("94451101026");
                 c2.setTelefone("21999887766");
                 c2.setSexo("M");

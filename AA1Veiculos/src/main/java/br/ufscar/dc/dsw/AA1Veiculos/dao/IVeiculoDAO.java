@@ -26,7 +26,7 @@ public interface IVeiculoDAO extends CrudRepository<Veiculo, Long>{
 	
     @Query("SELECT DISTINCT v.modelo FROM Veiculo v")
     List<String> findDistinctModelos();
-    
+
     List<Veiculo> findAllByModelo(String modelo);
 
 	List<Veiculo> findAllByLoja(Loja loja);
