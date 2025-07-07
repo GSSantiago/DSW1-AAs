@@ -124,7 +124,7 @@ public class PropostaController {
         
         Loja loja = (Loja) usuarioDetails.getUsuario();
 
-        List<Proposta> propostas = propostaDAO.findAllByVeiculoLoja(loja);
+        List<Proposta> propostas = propostaDAO.findAllByVeiculoLojaAndStatus(loja, StatusProposta.ABERTO);
         model.addAttribute("propostas", propostas);
 
         return "propostas/listaPropostaLoja";
@@ -148,20 +148,24 @@ public class PropostaController {
         Proposta propostaExistente = propostaDAO.findById(proposta.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Proposta não encontrada."));
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
-        Loja loja = (Loja) usuarioDetails.getUsuario();
-
-        if (!propostaExistente.getVeiculo().getLoja().equals(loja)) {
-            ra.addFlashAttribute("erro", "Você não tem permissão para aceitar esta proposta.");
-            return "redirect:/propostas/listaPropostaLoja";
-        }
 
         propostaExistente.setStatus(StatusProposta.ACEITO);
         propostaExistente.setLinkReuniao(proposta.getLinkReuniao());
         propostaExistente.setHorarioReuniao(proposta.getHorarioReuniao());
-
         propostaDAO.save(propostaExistente);
+
+
+        List<Proposta> outrasPropostas = propostaDAO.findAllByVeiculoAndStatus(propostaExistente.getVeiculo(), StatusProposta.ABERTO);
+        for (Proposta p : outrasPropostas) {
+            if (!p.getId().equals(propostaExistente.getId())) {
+                p.setStatus(StatusProposta.NAO_ACEITO);
+                propostaDAO.save(p);
+
+                String emailRecusa = "Sua proposta para o veículo " + p.getVeiculo().getModelo() + " foi recusada automaticamente porque outra proposta foi aceita.";
+                emailService.enviarEmail(p.getCliente().getEmail(), "Proposta Recusada", emailRecusa);
+            }
+        }
+
 
         ra.addFlashAttribute("mensagem", "Proposta aceita com sucesso!");
 
@@ -191,14 +195,6 @@ public class PropostaController {
                                      .orElseThrow(() -> new IllegalArgumentException("Proposta não encontrada."));
 
        
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
-        Loja loja = (Loja) usuarioDetails.getUsuario();
-
-        if (!proposta.getVeiculo().getLoja().equals(loja)) {
-            ra.addFlashAttribute("erro", "Você não tem permissão para recusar esta proposta.");
-            return "redirect:/propostas/listaPropostaLoja";
-        }
 
         proposta.setStatus(StatusProposta.NAO_ACEITO);
         
