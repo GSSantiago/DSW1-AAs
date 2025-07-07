@@ -12,7 +12,7 @@ import jakarta.validation.constraints.*;
 public class Cliente extends Usuario {
 
     @NotBlank(message = "{cpf.not.blank}")
-    @Size(min = 11, max = 11, message = "{cpf.size}")
+    @Size(min = 14, max = 14, message = "{cpf.size}")
     @Column(nullable = false, unique = true)
     private String cpf;
 
