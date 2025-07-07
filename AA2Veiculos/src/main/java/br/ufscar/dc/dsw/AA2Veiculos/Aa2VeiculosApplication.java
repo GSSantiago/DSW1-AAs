@@ -16,6 +16,7 @@ import br.ufscar.dc.dsw.AA2Veiculos.dao.IUsuarioDAO;
 import br.ufscar.dc.dsw.AA2Veiculos.dao.IVeiculoDAO;
 import br.ufscar.dc.dsw.AA2Veiculos.domain.Cliente;
 import br.ufscar.dc.dsw.AA2Veiculos.domain.Loja;
+import br.ufscar.dc.dsw.AA2Veiculos.domain.Usuario;
 import br.ufscar.dc.dsw.AA2Veiculos.domain.Veiculo;
 
 @SpringBootApplication
