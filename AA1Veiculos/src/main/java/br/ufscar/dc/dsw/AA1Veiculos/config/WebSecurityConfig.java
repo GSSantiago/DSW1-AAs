@@ -39,7 +39,7 @@ public class WebSecurityConfig {
                 .authenticationProvider(authenticationProvider())
 
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/error", "/login", "/login/**", "/logout", "/home/**", "/veiculos", "/veiculos/listar", "/imagem/**", "/js/**",
+                        .requestMatchers("/error", "/login", "/login/**", "/logout", "/home/**", "/veiculos", "/veiculos/listar","/veiculos/{id}", "/imagem/**", "/js/**",
                                 "/css/**", "/image/**", "/webjars/**")
                         .permitAll()
                         .requestMatchers("/veiculos/cadastrar", "/veiculos/editar/**", "/veiculos/excluir/**",

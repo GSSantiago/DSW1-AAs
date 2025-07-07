@@ -57,6 +57,12 @@ public class VeiculoController {
         }
         return "veiculo/lista";
     }
+    
+    @GetMapping("/{id}")
+    public String detalhesVeiculo(@PathVariable("id") Long id, ModelMap model) {
+        model.addAttribute("veiculo", veiculoService.buscarPorId(id));
+        return "veiculo/detalhes";
+    }
 
     @GetMapping("/meus")
     @PreAuthorize("hasAuthority('ROLE_LOJA')")
@@ -148,6 +154,7 @@ public class VeiculoController {
     public List<String> listaModelos() {
         return veiculoService.buscarModelos();
     }
+
     
     @ModelAttribute("imagens")
     public List<Long> listaImagens() {

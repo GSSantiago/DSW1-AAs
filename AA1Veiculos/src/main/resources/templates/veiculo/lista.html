@@ -37,6 +37,7 @@
                   <th th:text="#{veiculo.ano.label}"></th>
                   <th th:text="#{veiculo.valor.label}"></th>
 				  <th th:text="#{veiculo.quilometragem.label}"></th>
+				  <th></th>
                   <th sec:authorize="hasAuthority('ROLE_CLIENTE')">Acoes</th> 
                 </tr>
               </thead>
@@ -48,6 +49,10 @@
                   <td th:text="${veiculo.ano}">2020</td>
 				  <td th:text="|R$ ${#numbers.formatDecimal(veiculo.valor, 2, 'POINT', 2, 'COMMA')}|">R$ 50.000,00</td>
 				  <td th:text="|${#numbers.formatDecimal(veiculo.quilometragem,0, 'POINT', 0,'COMMA')} kM|"></td>
+				  <td><a th:href="@{/veiculos/{id}(id=${veiculo.id})}" class="btn btn-primary btn-sm">
+						Visualizar
+					  </a>
+				  </td>
                   <td sec:authorize="hasAuthority('ROLE_CLIENTE')">
                       <a th:href="@{/propostas/formulario/{id}(id=${veiculo.id})}" class="btn btn-primary btn-sm">
                           Fazer Proposta
