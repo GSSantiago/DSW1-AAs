@@ -1,7 +1,7 @@
 package br.ufscar.dc.dsw.AA1Veiculos.controller;
 
 import java.util.List;
-import java.util.Locale;
+//import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,12 +10,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import org.springframework.validation.annotation.Validated;
+import br.ufscar.dc.dsw.AA1Veiculos.validation.ValidationGroups;
+
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Cliente;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.IClienteService;
-import org.springframework.context.MessageSource;
+//import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import jakarta.validation.Valid;
+//import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/clientes")
@@ -24,28 +27,36 @@ public class ClienteController {
     @Autowired
     private IClienteService clienteService;
 
-    @Autowired
-    private MessageSource messageSource;
+    // @Autowired
+    // private MessageSource messageSource;
 
     @GetMapping
     public String listar(Model model) {
         List<Cliente> lista = clienteService.buscarTodos();
         model.addAttribute("clientes", lista);
-        return "cliente/lista"; 
+        return "cliente/lista";
     }
 
     @GetMapping("/cadastrar")
     public String cadastrar(Cliente cliente) {
-        return "cliente/cadastro"; 
+        return "cliente/cadastro";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Cliente cliente, BindingResult result) {
+    public String salvar(
+            @Validated(ValidationGroups.OnCreate.class) Cliente cliente,
+            BindingResult result,
+            RedirectAttributes attr) {
+
         if (result.hasErrors()) {
-            System.out.println("Erros de binding: " + result.getAllErrors());
             return "cliente/cadastro";
         }
-        clienteService.salvar(cliente);
+        try {
+            clienteService.salvar(cliente);
+            attr.addFlashAttribute("sucess", "mensagem.sucesso.cliente.salvo");
+        } catch (DataIntegrityViolationException e) {
+            attr.addFlashAttribute("fail", "mensagem.erro.cliente.documento.duplicado");
+        }
         return "redirect:/clientes";
     }
 
@@ -57,20 +68,22 @@ public class ClienteController {
     }
 
     @PostMapping("/editar")
-    public String atualizar(@Valid Cliente cliente, BindingResult result) {
+    public String atualizar(
+            @Validated(ValidationGroups.OnUpdate.class) Cliente cliente,
+            BindingResult result,
+            RedirectAttributes attr) {
+
         if (result.hasErrors()) {
             return "cliente/cadastro";
         }
-        clienteService.salvar(cliente);
+        try {
+            clienteService.salvar(cliente);
+            attr.addFlashAttribute("sucess", "mensagem.sucesso.cliente.atualizado");
+        } catch (DataIntegrityViolationException e) {
+            attr.addFlashAttribute("fail", "mensagem.erro.cliente.documento.duplicado");
+        }
         return "redirect:/clientes";
     }
-
- /*   @GetMapping("/remover/{id}")
-    public String remover(@PathVariable("id") Long id) {
-        clienteService.excluir(id);
-        return "redirect:/clientes";
-    } 
-*/
 
     @GetMapping("/remover/{id}")
     public String remover(@PathVariable("id") Long id, RedirectAttributes attr) {

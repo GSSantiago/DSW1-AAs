@@ -1,7 +1,6 @@
 package br.ufscar.dc.dsw.AA1Veiculos.controller;
 
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,11 +10,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import org.springframework.validation.annotation.Validated;
+import br.ufscar.dc.dsw.AA1Veiculos.validation.ValidationGroups;
+
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
 import br.ufscar.dc.dsw.AA1Veiculos.service.spec.ILojaService;
-import org.springframework.context.MessageSource;
+//import org.springframework.context.MessageSource;
 
-import jakarta.validation.Valid;
+//import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/lojas")
@@ -24,8 +26,8 @@ public class LojaController {
     @Autowired
     private ILojaService lojaService;
 
-    @Autowired
-    private MessageSource messageSource;
+    // @Autowired
+    // private MessageSource messageSource;
 
     @GetMapping
     public String listar(Model model) {
@@ -36,15 +38,24 @@ public class LojaController {
 
     @GetMapping("/cadastrar")
     public String cadastrar(Loja loja) {
-        return "loja/cadastro"; 
+        return "loja/cadastro";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Loja loja, BindingResult result) {
+    public String salvar(
+            @Validated(ValidationGroups.OnCreate.class) Loja loja,
+            BindingResult result,
+            RedirectAttributes attr) {
+
         if (result.hasErrors()) {
             return "loja/cadastro";
         }
-        lojaService.salvar(loja);
+        try {
+            lojaService.salvar(loja);
+            attr.addFlashAttribute("sucess", "mensagem.sucesso.loja.salva");
+        } catch (DataIntegrityViolationException e) {
+            attr.addFlashAttribute("fail", "mensagem.erro.loja.documento.duplicado");
+        }
         return "redirect:/lojas";
     }
 
@@ -52,16 +63,24 @@ public class LojaController {
     public String editar(@PathVariable("id") Long id, Model model) {
         Loja loja = lojaService.buscarPorId(id);
         model.addAttribute("loja", loja);
-        return "loja/cadastro"; 
+        return "loja/cadastro";
     }
-    
 
     @PostMapping("/editar")
-    public String atualizar(@Valid Loja loja, BindingResult result) {
+    public String atualizar(
+            @Validated(ValidationGroups.OnUpdate.class) Loja loja,
+            BindingResult result,
+            RedirectAttributes attr) {
+
         if (result.hasErrors()) {
             return "loja/cadastro";
         }
-        lojaService.salvar(loja);
+        try {
+            lojaService.salvar(loja);
+            attr.addFlashAttribute("sucess", "mensagem.sucesso.loja.atualizada");
+        } catch (DataIntegrityViolationException e) {
+            attr.addFlashAttribute("fail", "mensagem.erro.loja.documento.duplicado");
+        }
         return "redirect:/lojas";
     }
 
