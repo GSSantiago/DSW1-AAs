@@ -112,7 +112,7 @@ public class Aa1VeiculosApplication {
                 c1.setNome("Maria Santos");
                 c1.setEmail("w1374066@gmail.com");
                 c1.setSenha(encoder.encode("maria123"));
-                c1.setCpf("19325666006");
+                c1.setCpf("193.256.660-06");
                 c1.setTelefone("11988776655");
                 c1.setSexo("F");
                 c1.setNascimento(LocalDate.of(1990, 5, 15));
@@ -123,7 +123,7 @@ public class Aa1VeiculosApplication {
                 c2.setNome("João Pereira");
                 c2.setEmail("joao.pereira@example.com");
                 c2.setSenha(encoder.encode("joaopass"));
-                c2.setCpf("94451101026");
+                c2.setCpf("944.511.010-26");
                 c2.setTelefone("21999887766");
                 c2.setSexo("M");
                 c2.setNascimento(LocalDate.of(1985, 8, 30));
