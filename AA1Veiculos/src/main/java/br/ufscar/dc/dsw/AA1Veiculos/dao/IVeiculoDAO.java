@@ -18,17 +18,20 @@ public interface IVeiculoDAO extends CrudRepository<Veiculo, Long>{
 	
 	Veiculo findByPlaca(String placa);
 
+	@Query("SELECT v FROM Veiculo v LEFT JOIN Proposta p ON v = p.veiculo WHERE (p IS NULL OR p.status != 'ACEITO')")
 	List<Veiculo> findAll();
 	
 	Veiculo save(Veiculo livro);
 
 	void deleteById(Long id);
 	
-    @Query("SELECT DISTINCT v.modelo FROM Veiculo v")
+    @Query("SELECT DISTINCT v.modelo FROM Veiculo v LEFT JOIN Proposta p ON v = p.veiculo WHERE (p IS NULL OR p.status != 'ACEITO')")
     List<String> findDistinctModelos();
 
+	@Query("SELECT v FROM Veiculo v LEFT JOIN Proposta p ON v = p.veiculo WHERE v.modelo = :modelo AND (p IS NULL OR p.status != 'ACEITO')")
     List<Veiculo> findAllByModelo(String modelo);
 
+	@Query("SELECT v FROM Veiculo v LEFT JOIN Proposta p ON v = p.veiculo WHERE v.loja = :loja AND (p IS NULL OR p.status != 'ACEITO')")
 	List<Veiculo> findAllByLoja(Loja loja);
     
 }

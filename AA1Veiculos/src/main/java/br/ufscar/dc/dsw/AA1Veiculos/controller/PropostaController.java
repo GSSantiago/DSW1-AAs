@@ -58,11 +58,6 @@ public class PropostaController {
                                     .orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado."));
         proposta.setVeiculo(veiculo);
         
-        /* 
-        if (result.hasErrors()) {
-            model.addAttribute("veiculo", veiculo); 
-            return "propostas/formulario";
-        }*/
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
