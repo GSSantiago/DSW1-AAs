@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import br.ufscar.dc.dsw.AA1Veiculos.validation.ValidationGroups;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -23,7 +24,9 @@ public abstract class Usuario extends AbstractEntity<Long>  {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Size(max = 100)
+    @NotBlank(groups = ValidationGroups.OnCreate.class, message = "{usuario.senha.notblank}")
+    @Size(min = 6, message = "{usuario.senha.size}")
+    @Column(nullable = false, length = 64)
     private String senha;
 
     @NotBlank
