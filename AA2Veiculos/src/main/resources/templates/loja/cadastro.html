@@ -1,0 +1,89 @@
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+</head>
+
+<body>
+  <section class="layout-content" layout:fragment="corpo">
+
+    <nav class="navbar navbar-expand-md bg-light mb-3">
+      <div class="container">
+        <a class="btn btn-secondary-custom btn-md" th:href="@{/lojas}">
+          <span class="oi oi-spreadsheet"></span>
+          <span th:text="#{loja.lista.titulo}">Listar Lojas</span>
+        </a>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active d-flex align-items-center">
+            <span th:text="#{loja.form.titulo}">Cadastro de Loja</span>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container" id="cadastro-loja">
+      <div th:replace="~{fragments/alert}"></div>
+
+      <form th:action="${loja.id == null} ? @{/lojas/salvar} : @{/lojas/editar}" th:object="${loja}" method="post">
+
+
+        <input type="hidden" name="papel" value="LOJA" />
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-row">
+
+          <div class="form-group col-md-6">
+            <label for="nome" th:text="#{loja.nome}">Nome</label>
+            <input type="text" id="nome" class="form-control" th:field="*{nome}"
+              th:classappend="${#fields.hasErrors('nome')}? 'is-invalid'" />
+            <div class="invalid-feedback" th:errors="*{nome}"></div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="email" th:text="#{loja.email}">E‑mail</label>
+            <input type="email" id="email" class="form-control" th:field="*{email}"
+              th:classappend="${#fields.hasErrors('email')}? 'is-invalid'" />
+            <div class="invalid-feedback" th:errors="*{email}"></div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="senha" th:text="#{usuario.senha}">Senha</label>
+            <input type="password" id="senha" class="form-control" th:field="*{senha}"
+              th:classappend="${#fields.hasErrors('senha')} ? 'is-invalid'" />
+            <div class="invalid-feedback">
+              <span th:errors="*{senha}"></span>
+            </div>
+            
+            <small class="form-text text-muted" th:if="${cliente?.id != null or loja?.id != null}"
+              th:text="#{usuario.senha.hint.edicao}">
+              Preencha apenas se quiser alterar a senha
+            </small>
+          </div>
+
+
+          <div class="form-group col-md-6">
+            <label for="cnpj" th:text="#{loja.cnpj}">CNPJ</label>
+            <input type="text" id="cnpj" class="form-control" th:field="*{cnpj}"
+              th:classappend="${#fields.hasErrors('cnpj')}? 'is-invalid'" />
+            <div class="invalid-feedback" th:errors="*{cnpj}"></div>
+          </div>
+
+          <div class="form-group col-12">
+            <label for="descricao" th:text="#{loja.descricao}">Descrição</label>
+            <textarea id="descricao" class="form-control" rows="3" th:field="*{descricao}"
+              th:classappend="${#fields.hasErrors('descricao')}? 'is-invalid'"></textarea>
+            <div class="invalid-feedback" th:errors="*{descricao}"></div>
+          </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-success btn-sm" th:text="#{button.salvar.label} ?: 'Salvar'">
+          Salvar
+        </button>
+
+      </form>
+    </div>
+  </section>
+</body>
+
+</html>

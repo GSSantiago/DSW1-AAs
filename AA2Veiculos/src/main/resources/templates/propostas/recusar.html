@@ -1,0 +1,43 @@
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+<body>
+</body>
+</html>
+
+<div class="container mt-5">
+    <div class="card shadow rounded">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0" th:text="#{proposta.recusar.titulo}">Recusar Proposta / Enviar Contra Proposta</h4>
+        </div>
+
+        <div class="card-body">
+            <form th:action="@{/propostas/recusar}" th:object="${proposta}" method="post">
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="mb-3">
+                    <label for="valorProposta" class="form-label fw-semibold" th:text="#{proposta.recusar.valor}">Valor da Contra Proposta (opcional):</label>
+                    <input type="number" step="0.01" class="form-control" id="valorProposta" th:field="*{valorProposta}" th:placeholder="#{proposta.recusar.valor}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="condicoesPagamento" class="form-label fw-semibold" th:text="#{proposta.recusar.condicoes}">Condições de Pagamento (opcional):</label>
+                    <textarea class="form-control" id="condicoesPagamento" th:field="*{condicoesPagamento}" th:placeholder="#{proposta.recusar.condicoes}"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="contraProposta" class="form-label fw-semibold" th:text="#{proposta.recusar.mensagem}">Mensagem Adicional (opcional):</label>
+                    <textarea class="form-control" id="contraProposta" th:field="*{contraProposta}" th:placeholder="#{proposta.recusar.mensagem}"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="oi oi-x"></i> <span th:text="#{proposta.recusar.enviar}">Confirmar Recusa / Enviar Contra Proposta</span>
+                    </button>
+
+                    <a th:href="@{/propostas/listaPropostaLoja}" class="btn btn-secondary btn-sm">
+                        <i class="oi oi-arrow-circle-left"></i> <span th:text="#{proposta.recusar.voltar}">Voltar</span>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

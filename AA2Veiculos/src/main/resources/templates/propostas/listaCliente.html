@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{minhas.propostas.titulo}">Minhas Propostas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4" th:text="#{minhas.propostas.titulo}">Minhas Propostas</h1>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th th:text="#{minhas.propostas.veiculo}">Veículo</th>
+                <th th:text="#{minhas.propostas.loja}">Loja</th>
+                <th th:text="#{minhas.propostas.valor}">Valor Proposta</th>
+                <th th:text="#{minhas.propostas.condicoes}">Condições de Pagamento</th>
+                <th th:text="#{minhas.propostas.data}">Data da Proposta</th>
+                <th th:text="#{minhas.propostas.status}">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="proposta : ${propostas}">
+                <td th:text="${proposta.veiculo.modelo}"></td>
+                <td th:text="${proposta.veiculo.loja.nome}"></td>
+                <td th:text="${#numbers.formatCurrency(proposta.valorProposta)}"></td>
+                <td th:text="${proposta.condicoesPagamento}"></td>
+                <td th:text="${proposta.dataProposta}"></td>
+                <td th:text="${proposta.status}"></td>
+                <td>
+                    <span th:if="${proposta.status == 'NAO_ACEITO'}" class="text-danger" th:text="#{minhas.propostas.status.nao_aceito}">Proposta recusada</span>
+                    <span th:if="${proposta.status == 'ACEITO'}" class="text-success" th:text="#{minhas.propostas.status.aceito}">Proposta aceita</span>
+                    <span th:if="${proposta.status == 'ABERTO'}" class="text-warning" th:text="#{minhas.propostas.status.aberto}">Em análise</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/" class="btn btn-primary" th:text="#{minhas.propostas.voltar}">Voltar para Home</a>
+</div>
+
+</body>
+</html>

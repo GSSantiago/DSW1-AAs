@@ -1,0 +1,63 @@
+package br.ufscar.dc.dsw.AA2Veiculos.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import br.ufscar.dc.dsw.AA2Veiculos.dao.ILojaDAO;
+import br.ufscar.dc.dsw.AA2Veiculos.domain.Loja;
+import br.ufscar.dc.dsw.AA2Veiculos.service.spec.ILojaService;
+
+@Service
+public class LojaServiceImpl implements ILojaService {
+
+    @Autowired
+    private ILojaDAO dao;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Override
+    public void salvar(Loja loja) {
+        if (loja.getId() != null) {
+            Loja lojaAntiga = dao.findById(loja.getId()).orElse(null);
+            if (lojaAntiga != null && (loja.getSenha() == null || loja.getSenha().isBlank())) {
+                loja.setSenha(lojaAntiga.getSenha());
+            } else if (!loja.getSenha().startsWith("$2a$")) {
+                loja.setSenha(passwordEncoder.encode(loja.getSenha()));
+            }
+        } else {
+            loja.setSenha(passwordEncoder.encode(loja.getSenha()));
+        }
+
+        loja.setPapel("LOJA");
+        dao.save(loja);
+    }
+
+    @Override
+    public void excluir(Long id) {
+        dao.deleteById(id);
+    }
+
+    @Override
+    public Loja buscarPorId(Long id) {
+        return dao.findById(id).orElse(null);
+    }
+
+    @Override
+    public Loja buscarPorEmail(String email) {
+        return dao.findByEmail(email);
+    }
+
+    @Override
+    public Loja buscarPorCnpj(String cnpj) {
+        return dao.findByCnpj(cnpj);
+    }
+
+    @Override
+    public List<Loja> buscarTodos() {
+        return dao.findAll();
+    }
+}

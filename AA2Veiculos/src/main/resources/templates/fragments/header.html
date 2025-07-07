@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:fragment="cabecalho">
+    <nav class="navbar navbar-expand-lg navbar-light primary-bg">
+        <a class="navbar-brand" th:href="@{/}">AA1Veículos</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_ADMIN')">
+                    <a class="nav-link" th:href="@{/clientes}" th:text="#{cliente.menu}">Clientes</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_ADMIN')">
+                    <a class="nav-link" th:href="@{/lojas}" th:text="#{loja.menu}">Lojas</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_CLIENTE')">
+                    <a class="nav-link" th:href="@{/propostas/listaCliente}" th:text="#{proposta.menu}" role="button">Propostas</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_LOJA')">
+                    <a class="nav-link" th:href="@{/propostas/listaPropostaLoja}" th:text="#{proposta.menu}" role="button">Propostas</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/veiculos/listar}" th:text="#{veiculo.menu}">Veículos</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_LOJA')">
+                    <a class="nav-link" th:href="@{/veiculos/meus}" th:text="#{veiculo.lista.loja.titulo}">Meus Veículos</a>
+                </li>
+                <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
+                        <span sec:authentication="name"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;"></form>
+                        <a class="dropdown-item text-dark" href="#" th:text="#{logout.label}"
+                           onclick="document.getElementById('logoutForm').submit();">Sair</a>
+                    </div>
+                </li>
+				
+				<li class="nav-item" sec:authorize="isAnonymous()">
+                   <a class="nav-link" th:href="@{/login}" th:text="#{login.label}"></a>
+               </li>
+
+               <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown">
+                        <span th:text="#{language.label}">Idioma</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" th:href="@{?lang=pt}" th:text="#{portuguese}">Português</a>
+                        <a class="dropdown-item" th:href="@{?lang=en}" th:text="#{english}">English</a>
+                    </div>
+                </li>
+
+
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

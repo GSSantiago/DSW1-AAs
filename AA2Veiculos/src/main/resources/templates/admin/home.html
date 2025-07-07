@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <title th:text="#{admin.home.title}">Área Administrativa</title>
+</head>
+<body>
+<section layout:fragment="corpo" class="container mt-4">
+
+    <h2 class="mb-4 text-center" th:text="#{admin.home.title}">Área Administrativa</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-5 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title" th:text="#{admin.home.gerenciar.clientes}">Gerenciar Clientes</h5>
+                    <a th:href="@{/clientes/lista}" class="btn btn-primary" th:text="#{admin.home.botao.acessar}">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title" th:text="#{admin.home.gerenciar.lojas}">Gerenciar Lojas</h5>
+                    <a th:href="@{/lojas/lista}" class="btn btn-primary" th:text="#{admin.home.botao.acessar}">Acessar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

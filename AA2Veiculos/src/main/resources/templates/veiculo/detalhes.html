@@ -1,0 +1,80 @@
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+</head>
+<body>
+<section class="container my-4" layout:fragment="corpo">
+
+  <div class="row mb-4">
+    <div class="col">
+      <h2>Detalhes do Veículo</h2>
+    </div>
+    <div class="col text-right">
+      <a class="btn btn-secondary" th:href="@{/veiculos/listar}">Voltar</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" th:text="#{veiculo.placa.label}">Placa</label>
+        <div class="col-sm-8">
+          <p th:text="${veiculo.placa}"></p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" th:text="#{veiculo.modelo.label}">Modelo</label>
+        <div class="col-sm-8">
+          <p th:text="${veiculo.modelo}"></p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" th:text="#{veiculo.ano.label}">Ano</label>
+        <div class="col-sm-8">
+          <p th:text="${veiculo.ano}"></p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" th:text="#{veiculo.quilometragem.label}">Quilometragem</label>
+        <div class="col-sm-8">
+          <p th:text="${veiculo.quilometragem} + ' km'"></p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" th:text="#{veiculo.valor.label}">Valor</label>
+        <div class="col-sm-8">
+          <p th:text="|R$ ${#numbers.formatDecimal(veiculo.valor,2,2,'COMMA')}|"></p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" th:text="#{veiculo.descricao.label}">Descrição</label>
+        <div class="col-sm-8">
+          <p th:text="${veiculo.descricao}"></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+	<section class="container mt-4" th:if="${veiculo.imagens != null and !veiculo.imagens.isEmpty()}">
+		  <h5 th:text="#{veiculo.galeria.titulo}"></h5>
+		  <div class="row">
+		    <div class="col-md-3 mb-3" th:each="imagem : ${veiculo.imagens}">
+		      <div class="card">
+		        <img th:src="@{/imagem/{id}(id=${imagem.id})}" class="card-img-top img-fluid" alt="Imagem Veículo">
+		      </div>
+		    </div>
+		  </div>
+		</section>>
+  </div>
+
+</section>
+</body>
+</html>
