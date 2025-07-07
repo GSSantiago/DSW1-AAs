@@ -16,6 +16,7 @@ import br.ufscar.dc.dsw.AA1Veiculos.dao.IVeiculoDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.dao.IUsuarioDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Cliente;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Usuario;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Veiculo;
 
 @SpringBootApplication
@@ -35,14 +36,12 @@ public class Aa1VeiculosApplication {
         return args -> {
             String adminEmail = "admin@admin.com";
             if (usuarioDAO.findByEmail(adminEmail) == null) {
-                Loja admin = new Loja();
+                Usuario admin = new Usuario();
                 admin.setNome("Administrador");
                 admin.setEmail(adminEmail);
                 admin.setSenha(encoder.encode("admin"));
                 admin.setPapel("ADMIN");
-                admin.setCnpj("00.000.000/0001-00");
-                admin.setDescricao("Administrador do sistema.");
-                lojaDAO.save(admin);
+                usuarioDAO.save(admin);
             }
 
             if (lojaDAO.count() <= 1) {
