@@ -2,6 +2,7 @@ package br.ufscar.dc.dsw.AA1Veiculos;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,11 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import br.ufscar.dc.dsw.AA1Veiculos.dao.IClienteDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.dao.ILojaDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.dao.IVeiculoDAO;
-import br.ufscar.dc.dsw.AA1Veiculos.dao.IAdminDAO;
+import br.ufscar.dc.dsw.AA1Veiculos.dao.IUsuarioDAO;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Cliente;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
 import br.ufscar.dc.dsw.AA1Veiculos.domain.Veiculo;
-import br.ufscar.dc.dsw.AA1Veiculos.domain.Admin;
 
 @SpringBootApplication
 public class Aa1VeiculosApplication {
@@ -24,46 +24,55 @@ public class Aa1VeiculosApplication {
     public static void main(String[] args) {
         SpringApplication.run(Aa1VeiculosApplication.class, args);
     }
-    
+
     @Bean
     public CommandLineRunner demo(
             ILojaDAO lojaDAO,
             IVeiculoDAO veiculoDAO,
             IClienteDAO clienteDAO,
-            IAdminDAO adminDAO,
+            IUsuarioDAO usuarioDAO,
             BCryptPasswordEncoder encoder) {
-        
         return args -> {
-            if (adminDAO.count() == 0) {
-                Admin admin = new Admin();
+            String adminEmail = "admin@admin.com";
+            if (usuarioDAO.findByEmail(adminEmail) == null) {
+                Loja admin = new Loja();
                 admin.setNome("Administrador");
-                admin.setEmail("admin@admin.com");
+                admin.setEmail(adminEmail);
                 admin.setSenha(encoder.encode("admin"));
-                adminDAO.save(admin);
+                admin.setPapel("ADMIN");
+                admin.setCnpj("00.000.000/0001-00");
+                admin.setDescricao("Administrador do sistema.");
+                lojaDAO.save(admin);
             }
-            
-            if (lojaDAO.count() == 0) {
+
+            if (lojaDAO.count() <= 1) {
                 Loja loja1 = new Loja();
+                loja1.setNome("AutoPrime Veículos");
                 loja1.setEmail("contato@autoprime.com");
                 loja1.setSenha(encoder.encode("senha123"));
                 loja1.setCnpj("12.345.678/0001-90");
-                loja1.setNome("AutoPrime Veículos");
                 loja1.setDescricao("Concessionária especializada em seminovos com garantia.");
+                loja1.setPapel("LOJA");
                 lojaDAO.save(loja1);
 
                 Loja loja2 = new Loja();
+                loja2.setNome("CarrosVIP");
                 loja2.setEmail("vendas@carrosvip.com");
                 loja2.setSenha(encoder.encode("senha456"));
                 loja2.setCnpj("98.765.432/0001-10");
-                loja2.setNome("CarrosVIP");
                 loja2.setDescricao("Líder em vendas de carros de luxo na região.");
+                loja2.setPapel("LOJA");
                 lojaDAO.save(loja2);
             }
-            
+
             if (veiculoDAO.count() == 0) {
-                Loja loja1 = lojaDAO.findAll().get(0);
-                Loja loja2 = lojaDAO.findAll().get(1);
-                
+                List<Loja> lojas = lojaDAO.findAll();
+                lojas = lojas.stream()
+                        .filter(l -> !l.getEmail().equals(adminEmail))
+                        .toList();
+                Loja loja1 = lojas.get(0);
+                Loja loja2 = lojas.get(1);
+
                 Veiculo v1 = new Veiculo();
                 v1.setLoja(loja1);
                 v1.setPlaca("ABC1D23");
@@ -97,28 +106,29 @@ public class Aa1VeiculosApplication {
                 v3.setDescricao("SUV de luxo, teto solar, bancos de couro.");
                 veiculoDAO.save(v3);
             }
-            
+
             if (clienteDAO.count() == 0) {
                 Cliente c1 = new Cliente();
+                c1.setNome("Maria Santos");
                 c1.setEmail("w1374066@gmail.com");
                 c1.setSenha(encoder.encode("maria123"));
                 c1.setCpf("12345678901");
-                c1.setNome("Maria Santos");
                 c1.setTelefone("11988776655");
                 c1.setSexo("F");
-                c1.setDataNascimento(LocalDate.of(1990, 5, 15));
+                c1.setNascimento(java.sql.Date.valueOf(LocalDate.of(1990, 5, 15)));
+                c1.setPapel("CLIENTE");
                 clienteDAO.save(c1);
 
                 Cliente c2 = new Cliente();
+                c2.setNome("João Pereira");
                 c2.setEmail("joao.pereira@example.com");
                 c2.setSenha(encoder.encode("joaopass"));
                 c2.setCpf("10987654321");
-                c2.setNome("João Pereira");
                 c2.setTelefone("21999887766");
                 c2.setSexo("M");
-                c2.setDataNascimento(LocalDate.of(1985, 8, 30));
+                c2.setNascimento(java.sql.Date.valueOf(LocalDate.of(1985, 8, 30)));
+                c2.setPapel("CLIENTE");
                 clienteDAO.save(c2);
-
             }
         };
     }

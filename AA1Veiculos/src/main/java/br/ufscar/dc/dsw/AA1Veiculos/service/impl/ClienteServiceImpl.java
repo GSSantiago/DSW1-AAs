@@ -24,6 +24,7 @@ public class ClienteServiceImpl implements IClienteService {
         if (!cliente.getSenha().startsWith("$2a$")) {
             cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
         }
+        cliente.setPapel("CLIENTE");
         dao.save(cliente);
     }
 

@@ -2,24 +2,21 @@ package br.ufscar.dc.dsw.AA1Veiculos.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import java.time.LocalDate;
+
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Cliente")
+@PrimaryKeyJoinColumn(name = "id")
 public class Cliente extends Usuario {
 
     @NotBlank
-    @Pattern(regexp = "\\d{11}")
-    @Column(nullable = false, unique = true, length = 11)
+    @Size(max = 14)
+    @Column(nullable = false, unique = true)
     private String cpf;
 
     @NotBlank
-    @Size(max = 255)
-    private String nome;
-
-    @NotBlank
-    @Pattern(regexp = "\\d{10,15}")
+    @Size(max = 20)
+    @Column(nullable = false)
     private String telefone;
 
     @NotBlank
@@ -28,7 +25,9 @@ public class Cliente extends Usuario {
 
     @NotNull
     @Past
-    private LocalDate dataNascimento;
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
+    private java.util.Date nascimento;
 
     public String getCpf() {
         return cpf;
@@ -36,14 +35,6 @@ public class Cliente extends Usuario {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getTelefone() {
@@ -62,11 +53,11 @@ public class Cliente extends Usuario {
         this.sexo = sexo;
     }
 
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
+    public java.util.Date getNascimento() {
+        return nascimento;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setNascimento(java.util.Date nascimento) {
+        this.nascimento = nascimento;
     }
 }

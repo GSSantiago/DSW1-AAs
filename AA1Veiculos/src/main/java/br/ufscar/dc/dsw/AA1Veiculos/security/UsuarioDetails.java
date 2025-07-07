@@ -11,17 +11,17 @@ import br.ufscar.dc.dsw.AA1Veiculos.domain.Usuario;
 @SuppressWarnings("serial")
 public class UsuarioDetails implements UserDetails {
 
-    private final Usuario usuario;
-    private final Collection<? extends GrantedAuthority> authorities;
+    private Usuario usuario;
 
-    public UsuarioDetails(Usuario usuario, String role) {
+    public UsuarioDetails(Usuario usuario) {
         this.usuario = usuario;
-        this.authorities = List.of(new SimpleGrantedAuthority(role));
     }
-    
-    public Long getId() {
-    	return usuario.getId();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority(usuario.getRole()));
     }
+
 
     public Usuario getUsuario() {
         return usuario;
@@ -35,11 +35,6 @@ public class UsuarioDetails implements UserDetails {
     @Override
     public String getPassword() {
         return usuario.getSenha();
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
     }
 
     @Override

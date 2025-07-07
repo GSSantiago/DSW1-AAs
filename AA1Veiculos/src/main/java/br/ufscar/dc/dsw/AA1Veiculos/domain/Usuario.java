@@ -1,21 +1,51 @@
 package br.ufscar.dc.dsw.AA1Veiculos.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-@MappedSuperclass
-public abstract class Usuario extends AbstractEntity<Long> {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Usuario extends AbstractEntity<Long>  {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank (message = "{nome.not.blank}")
+    @Size(max = 60)
+    private String nome;
+
+    @NotBlank
     @Email
-    @NotBlank
-    @Size(max = 255)
-    @Column(nullable = false, unique = true, length = 255)
-    protected String email;
+    @Size(max = 50)
+    @Column(unique = true, nullable = false)
+    private String email;
 
     @NotBlank
-    @Size(min = 4, max = 255)
-    @Column(nullable = false, length = 255)
-    protected String senha;
+    @Size(max = 100)
+    private String senha;
+
+    @NotBlank
+    @Column(nullable = false, length = 15)
+    private String papel;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public String getEmail() {
         return email;
@@ -31,5 +61,17 @@ public abstract class Usuario extends AbstractEntity<Long> {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getPapel() {
+        return papel;
+    }
+
+    public void setPapel(String papel) {
+        this.papel = papel;
+    }
+
+    public String getRole() {
+        return "ROLE_" + papel.toUpperCase();
     }
 }

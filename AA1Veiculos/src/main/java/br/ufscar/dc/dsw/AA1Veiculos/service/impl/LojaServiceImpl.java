@@ -24,6 +24,7 @@ public class LojaServiceImpl implements ILojaService {
         if (!loja.getSenha().startsWith("$2a$")) {
             loja.setSenha(passwordEncoder.encode(loja.getSenha()));
         }
+        loja.setPapel("LOJA"); // ← atribui o papel
         dao.save(loja);
     }
 

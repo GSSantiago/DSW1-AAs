@@ -26,7 +26,7 @@
                 <th th:text="#{cliente.cpf}">CPF</th>
                 <th th:text="#{cliente.telefone}">Telefone</th>
                 <th th:text="#{cliente.sexo}">Sexo</th>
-                <th th:text="#{cliente.dataNascimento}">Data de Nascimento</th>
+                <th th:text="#{cliente.nascimento}">Data de Nascimento</th>
                 <th th:text="#{acoes}">Ações</th>
               </tr>
             </thead>
@@ -37,7 +37,7 @@
                 <td th:text="${cliente.cpf}">CPF</td>
                 <td th:text="${cliente.telefone}">Telefone</td>
                 <td th:text="${cliente.sexo}">Sexo</td>
-                <td th:text="${#temporals.format(cliente.dataNascimento, 'dd/MM/yyyy')}">Data</td>
+                <td th:text="${#dates.format(cliente.nascimento, 'dd/MM/yyyy')}">Data</td>
                 <td>
                   <a class="btn btn-link btn-sm p-0 mr-2"
                      th:href="@{|/clientes/editar/${cliente.id}|}" th:text="#{editar}">Editar</a> |

@@ -6,48 +6,22 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
-import br.ufscar.dc.dsw.AA1Veiculos.dao.IAdminDAO;
-import br.ufscar.dc.dsw.AA1Veiculos.dao.IClienteDAO;
-import br.ufscar.dc.dsw.AA1Veiculos.dao.ILojaDAO;
-import br.ufscar.dc.dsw.AA1Veiculos.domain.Admin;
-import br.ufscar.dc.dsw.AA1Veiculos.domain.Cliente;
-import br.ufscar.dc.dsw.AA1Veiculos.domain.Loja;
+import br.ufscar.dc.dsw.AA1Veiculos.dao.IUsuarioDAO;
+import br.ufscar.dc.dsw.AA1Veiculos.domain.Usuario;
+
 
 @Service
 public class UsuarioDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private IClienteDAO clienteDAO;
-
-    @Autowired
-    private ILojaDAO lojaDAO;
-
-    @Autowired
-    private IAdminDAO adminDAO;
-
-    @Autowired
-    private MessageSource messageSource;
+    private IUsuarioDAO usuarioDAO;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Admin admin = adminDAO.findByEmail(email);
-        Cliente cliente = clienteDAO.findByEmail(email);
-        Loja loja = lojaDAO.findByEmail(email);
-
-        if (admin != null) {
-            return new UsuarioDetails(admin, "ROLE_ADMIN");
+        Usuario usuario = usuarioDAO.findByEmail(email);
+        if (usuario == null) {
+            throw new UsernameNotFoundException("Usuário não encontrado.");
         }
-        if (cliente != null) {
-            return new UsuarioDetails(cliente, "ROLE_CLIENTE");
-        }
-        if (loja != null) {
-            return new UsuarioDetails(loja, "ROLE_LOJA");
-        }
-        throw new UsernameNotFoundException(
-                messageSource.getMessage("usuario.nao.encontrado", new Object[] { email },
-                        LocaleContextHolder.getLocale()));
+        return new UsuarioDetails(usuario);
     }
-
-
-
 }
