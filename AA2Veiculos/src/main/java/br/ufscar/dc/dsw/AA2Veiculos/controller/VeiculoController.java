@@ -54,6 +54,7 @@ public class VeiculoController {
             model.addAttribute("veiculos", veiculoService.buscarTodos());
         } else {
             model.addAttribute("veiculos", veiculoService.buscarTodosPorModelo(modelo));
+            model.addAttribute("modelo", modelo);
         }
         return "veiculo/lista";
     }
@@ -149,12 +150,6 @@ public class VeiculoController {
     public List<Loja> listaLojas() {
         return lojaService.buscarTodos();
     }
-    
-    @ModelAttribute("modelos")
-    public List<String> listaModelos() {
-        return veiculoService.buscarModelos();
-    }
-
     
     @ModelAttribute("imagens")
     public List<Long> listaImagens() {

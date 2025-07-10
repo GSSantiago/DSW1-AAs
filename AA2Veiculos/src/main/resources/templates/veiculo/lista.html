@@ -17,10 +17,8 @@
           <div class="card-body pt-3 pb-0">
             <form th:action="@{/veiculos/listar}" method="get" class="form-inline mb-3">
               <label for="modelo" class="mr-2" th:text="#{veiculo.modelo.label}"></label>
-              <select id="modelo" name="modelo" class="form-control mr-2">
-                <option value="" th:text="#{select.all}"></option>
-                <option th:each="modeloValue : ${modelos}" th:value="${modeloValue}" th:text="${modeloValue}" th:selected="${modeloValue == modelo}"></option>
-              </select>
+			  <input type="text" id="modelo" name="modelo" class="form-control mr-2" th:value="${modelo}" />
+  
               <button type="submit" class="btn btn-secondary-custom btn-sm" th:text="#{veiculo.filtro.botao}">Filtrar</button>
             </form>
           </div>
