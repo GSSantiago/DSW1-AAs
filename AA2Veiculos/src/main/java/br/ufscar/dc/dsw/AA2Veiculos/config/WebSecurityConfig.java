@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.*;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,15 +41,16 @@ public class WebSecurityConfig {
 
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/error", "/login", "/login/**", "/logout", "/home/**", "/veiculos", "/veiculos/listar","/veiculos/{id}", "/imagem/**", "/js/**",
-                                "/css/**", "/image/**", "/webjars/**")
+                                "/css/**", "/image/**", "/webjars/**", "/api/**")
                         .permitAll()
                         .requestMatchers("/veiculos/cadastrar", "/veiculos/editar/**", "/veiculos/excluir/**",
                         		"/veiculos/salvar/**","/loja/veiculos", "/veiculos/meus")
                         .hasAnyAuthority("ROLE_LOJA", "ROLE_ADMIN")
                         .requestMatchers("/clientes/**", "/lojas/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/propostas/**").hasAnyAuthority("ROLE_CLIENTE", "ROLE_LOJA","ROLE_ADMIN")
-                        .anyRequest().authenticated())
-
+                        .anyRequest().authenticated()
+                        )
+                .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/default")

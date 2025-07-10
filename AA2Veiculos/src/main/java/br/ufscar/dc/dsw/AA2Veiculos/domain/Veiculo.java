@@ -5,6 +5,9 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import br.ufscar.dc.dsw.AA2Veiculos.validation.UniqueChassi;
 import br.ufscar.dc.dsw.AA2Veiculos.validation.UniquePlaca;
 import jakarta.persistence.CascadeType;
@@ -27,6 +30,7 @@ import jakarta.validation.constraints.Size;
 @Table(name = "Veiculo")
 public class Veiculo extends AbstractEntity<Long> {
     
+    @JsonIgnore
 	@NotNull(message = "{NotNull.veiculo.loja}")
 	@ManyToOne
 	@JoinColumn(name = "loja_id")
@@ -76,6 +80,7 @@ public class Veiculo extends AbstractEntity<Long> {
 	private BigDecimal valor;
 	
 	@OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
 	private List<Imagem> imagens = new ArrayList<>();
 	
 	public Loja getLoja() {

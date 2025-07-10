@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.ufscar.dc.dsw.AA2Veiculos.domain.Loja;
 import br.ufscar.dc.dsw.AA2Veiculos.domain.Veiculo;
+import br.ufscar.dc.dsw.AA2Veiculos.service.spec.ILojaService;
 import br.ufscar.dc.dsw.AA2Veiculos.service.spec.IVeiculoService;
 
 @RestController
@@ -29,6 +31,9 @@ public class VeiculoRestController {
 
 	@Autowired
 	private IVeiculoService veiculoService;
+	
+    @Autowired
+    private ILojaService lojaService;
 
 	private boolean isJSONValid(String jsonInString) {
 		try {
@@ -50,7 +55,6 @@ public class VeiculoRestController {
 
 	    veiculo.setPlaca((String) json.get("placa"));
 	    veiculo.setModelo((String) json.get("modelo"));
-	    veiculo.setCNPJ((String) json.get("cnpj"));
 	    veiculo.setChassi((String) json.get("chassi"));
 	    
 	    Object ano = json.get("ano");
@@ -80,23 +84,47 @@ public class VeiculoRestController {
 		return ResponseEntity.ok(lista);
 	}
 	
-	@GetMapping(path = "/veiculos/{id}")
-	public ResponseEntity<Veiculo> lista(@PathVariable("id") long id) {
-		Veiculo veiculo = veiculoService.buscarPorId(id);
-		if (veiculo == null) {
+	@GetMapping(path = "/veiculos/lojas/{idLoja}")
+	public ResponseEntity<List<Veiculo>> lista(@PathVariable("idLoja") long idLoja) {
+        Loja loja = lojaService.buscarPorId(idLoja);
+        
+		if (loja == null) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(veiculo);
+        List<Veiculo> veiculos = veiculoService.buscarTodosPorLoja(loja);
+
+		return ResponseEntity.ok(veiculos);
 	}
 	
+	@GetMapping(path = "/veiculos/modelos/{modelo}")
+	public ResponseEntity<List<Veiculo>> lista(@PathVariable("modelo") String modelo) {
+        List<Veiculo> veiculos = veiculoService.buscarTodosPorModelo(modelo);
+        
+		if (veiculos == null) {
+			return ResponseEntity.notFound().build();
+		}
 
-	@PostMapping(path = "/veiculos")
+		return ResponseEntity.ok(veiculos);
+	}
+	
+	
+
+	@PostMapping(path = "/veiculos/lojas/{idLoja}")
 	@ResponseBody
-	public ResponseEntity<Veiculo> cria(@RequestBody JSONObject json) {
+	public ResponseEntity<Veiculo> cria(@PathVariable("idLoja") long idLoja, @RequestBody JSONObject json) {
 		try {
+	        Loja loja = lojaService.buscarPorId(idLoja);
+	        
+			if (loja == null) {
+				return ResponseEntity.notFound().build();
+			}
+			
 			if (isJSONValid(json.toString())) {
-				Veiculo veiculo = new Veiculo(); 
+				Veiculo veiculo = new Veiculo();				
 				parse(veiculo, json);
+				
+				veiculo.setLoja(loja);
+
 				veiculoService.salvar(veiculo);
 				return ResponseEntity.ok(veiculo);
 			} else {
@@ -108,35 +136,4 @@ public class VeiculoRestController {
 		}
 	}
 	
-	@PutMapping(path = "/veiculos/{id}")
-	public ResponseEntity<Veiculo> atualiza(@PathVariable("id") long id, @RequestBody JSONObject json) {
-		try {
-			if (isJSONValid(json.toString())) {
-				Veiculo veiculo = veiculoService.buscarPorId(id);
-				if (veiculo == null) {
-					return ResponseEntity.notFound().build();
-				} else {
-					parse(veiculo, json);
-					veiculoService.salvar(veiculo);
-					return ResponseEntity.ok(veiculo);
-				}
-			} else {
-				return ResponseEntity.badRequest().body(null);
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
-		}
-	}
-	
-	@DeleteMapping(path = "/veiculos/{id}")
-	public ResponseEntity<Boolean> remove(@PathVariable("id") long id) {
-
-		Veiculo veiculo = veiculoService.buscarPorId(id);
-		if (veiculo == null) {
-			return ResponseEntity.notFound().build();
-		} else {
-			veiculoService.excluir(id);
-			return ResponseEntity.noContent().build();
-	}
-	}
 }

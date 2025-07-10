@@ -1,5 +1,8 @@
 package br.ufscar.dc.dsw.AA2Veiculos.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -14,6 +17,7 @@ public class Imagem extends AbstractEntity<Long>  {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "veiculo_id")
+    @JsonBackReference
     private Veiculo veiculo;
 
 	@Column(nullable = false, length = 255)
@@ -22,6 +26,7 @@ public class Imagem extends AbstractEntity<Long>  {
     @Column(nullable = false, length = 100)
     private String contentType;
 
+    @JsonIgnore
     @Lob
     @Column(nullable = false, columnDefinition = "LONGBLOB")
     private byte[] dados;
