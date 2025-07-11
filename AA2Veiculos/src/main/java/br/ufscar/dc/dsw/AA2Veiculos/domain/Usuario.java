@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import br.ufscar.dc.dsw.AA2Veiculos.validation.ValidationGroups;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -24,6 +25,7 @@ public class Usuario extends AbstractEntity<Long>  {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @JsonIgnore
     @NotBlank(groups = ValidationGroups.OnCreate.class, message = "{usuario.senha.notblank}")
     @Size(min = 6, message = "{usuario.senha.size}")
     @Column(nullable = false, length = 64)
