@@ -11,11 +11,10 @@ import br.ufscar.dc.dsw.AA2Veiculos.service.spec.IVeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
-//import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam; 
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -35,11 +34,10 @@ public class PropostaRestController {
     private IVeiculoService veiculoService;
 
 
-
-    @GetMapping(path = "propostas/cliente/{id}/status/{status}")
+    @GetMapping(path = "propostas/cliente/{id}")
     public ResponseEntity<List<Proposta>> buscarPorClienteEStatus(
             @PathVariable Long id,
-            @PathVariable StatusProposta status) {
+            @RequestParam StatusProposta status) { 
 
         Cliente cliente = clienteService.buscarPorId(id);
         if (cliente == null) {
@@ -50,10 +48,10 @@ public class PropostaRestController {
         return ResponseEntity.ok(propostas);
     }
 
-    @GetMapping(path = "propostas/veiculo/{id}/status/{status}")
+    @GetMapping(path = "propostas/veiculo/{id}") 
     public ResponseEntity<List<Proposta>> buscarPorVeiculoEStatus(
             @PathVariable Long id,
-            @PathVariable StatusProposta status) {
+            @RequestParam StatusProposta status) { 
 
         Veiculo veiculo = veiculoService.buscarPorId(id);
         if (veiculo == null) {
