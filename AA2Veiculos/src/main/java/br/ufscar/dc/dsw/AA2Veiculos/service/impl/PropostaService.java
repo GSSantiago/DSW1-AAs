@@ -29,6 +29,11 @@ public class PropostaService implements IPropostaService{
     }
 
     @Override
+    public List<Proposta> buscarPorVeiculo(Veiculo veiculo) {
+        return dao.findAllByVeiculo(veiculo);
+    }
+
+    @Override
     public List<Proposta> buscarPorVeiculoEStatus(Veiculo veiculo, StatusProposta status) {
         return dao.findAllByVeiculoAndStatus(veiculo, status);
     }

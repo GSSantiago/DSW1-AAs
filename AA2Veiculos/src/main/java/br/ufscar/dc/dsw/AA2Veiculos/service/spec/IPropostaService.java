@@ -13,6 +13,8 @@ public interface IPropostaService {
 
     List<Proposta> buscarPorCliente(Cliente cliente);
 
+    List<Proposta> buscarPorVeiculo(Veiculo veiculo);
+
     List<Proposta> buscarPorVeiculoEStatus(Veiculo veiculo, StatusProposta status);
 
     List<Proposta> buscarPorClienteEStatus(Cliente cliente, StatusProposta status);

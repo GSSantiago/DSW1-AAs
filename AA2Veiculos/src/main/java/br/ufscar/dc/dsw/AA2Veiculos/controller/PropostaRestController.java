@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam; 
+import org.springframework.web.bind.annotation.RequestParam; // Import @RequestParam
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -33,32 +33,41 @@ public class PropostaRestController {
     @Autowired
     private IVeiculoService veiculoService;
 
-
     @GetMapping(path = "propostas/cliente/{id}")
-    public ResponseEntity<List<Proposta>> buscarPorClienteEStatus(
+    public ResponseEntity<List<Proposta>> buscarPorCliente(
             @PathVariable Long id,
-            @RequestParam StatusProposta status) { 
+            @RequestParam(required = false) StatusProposta status) {
 
         Cliente cliente = clienteService.buscarPorId(id);
         if (cliente == null) {
             return ResponseEntity.notFound().build();
         }
 
-        List<Proposta> propostas = propostaService.buscarPorClienteEStatus(cliente, status);
+        List<Proposta> propostas;
+        if (status != null) {
+            propostas = propostaService.buscarPorClienteEStatus(cliente, status);
+        } else {
+            propostas = propostaService.buscarPorCliente(cliente);
+        }
         return ResponseEntity.ok(propostas);
     }
 
-    @GetMapping(path = "propostas/veiculo/{id}") 
-    public ResponseEntity<List<Proposta>> buscarPorVeiculoEStatus(
+    @GetMapping(path = "propostas/veiculo/{id}")
+    public ResponseEntity<List<Proposta>> buscarPorVeiculo(
             @PathVariable Long id,
-            @RequestParam StatusProposta status) { 
+            @RequestParam(required = false) StatusProposta status) { 
 
         Veiculo veiculo = veiculoService.buscarPorId(id);
         if (veiculo == null) {
             return ResponseEntity.notFound().build();
         }
 
-        List<Proposta> propostas = propostaService.buscarPorVeiculoEStatus(veiculo, status);
+        List<Proposta> propostas;
+        if (status != null) {
+            propostas = propostaService.buscarPorVeiculoEStatus(veiculo, status);
+        } else {
+            propostas = propostaService.buscarPorVeiculo(veiculo);
+        }
         return ResponseEntity.ok(propostas);
     }
 }
