@@ -20,6 +20,8 @@ public interface IPropostaDAO extends CrudRepository<Proposta, Long> {
 
     List<Proposta> findAllByVeiculoAndStatus(Veiculo veiculo, StatusProposta status);
 
+    List<Proposta> findAllByClienteAndStatus(Cliente cliente, StatusProposta status);
+
     Proposta findByClienteAndVeiculoAndStatus(Cliente cliente, Veiculo veiculo, br.ufscar.dc.dsw.AA2Veiculos.domain.StatusProposta status);
 
     boolean existsByClienteAndVeiculoAndStatus(Cliente cliente, Veiculo veiculo, StatusProposta status);
