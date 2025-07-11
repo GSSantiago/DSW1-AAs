@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import jakarta.validation.Valid;
 import br.ufscar.dc.dsw.AA2Veiculos.domain.Loja;
@@ -30,14 +31,6 @@ public class LojaRestController {
 
     @Autowired
     private ILojaService lojaService;
-
-    private boolean isJSONValid(String jsonInString) {
-        try {
-            return new ObjectMapper().readTree(jsonInString) != null;
-        } catch (IOException e) {
-            return false;
-        }
-    }
 
     @GetMapping
     public ResponseEntity<List<Loja>> listar() {
