@@ -25,7 +25,6 @@ public class Usuario extends AbstractEntity<Long>  {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @JsonIgnore
     @NotBlank(groups = ValidationGroups.OnCreate.class, message = "{usuario.senha.notblank}")
     @Size(min = 6, message = "{usuario.senha.size}")
     @Column(nullable = false, length = 64)
