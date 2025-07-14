@@ -1,34 +1,22 @@
-# Sistema de Compra e Venda de Veículos
+# API para Sistema de Compra e Venda de Veículos 
 
-Sistema web desenvolvido como atividade da disciplina Desenvolvimento de Software Web1. 
-O sistema permite que clientes façam propostas para veículos cadastrados por lojas, com autenticação, envio de e-mails, internacionalização e validações completas.
+Sistema REST API desenvolvido como atividade 2 da disciplina Desenvolvimento de Software Web1. 
+O sistema permite que consultas dos veiculos e propostas possam ser feitas, além da criação de lojas e clientes.
 
 ## Equipe
 
-- Camila Oliveira de Souza – Autenticação, CRUDs e Validações
-- Guilherme Santiago – Cadastro/Listagem de Veículos e Estilo
-- Guilherme Wisniewski – Propostas, Status e E-mails
+- Camila Oliveira de Souza – Crud Lojas e clientes
+- Guilherme Santiago – Setup inicial do projeto e criação e visualização dos veículos
+- Guilherme Wisniewski – Visualização das propostas
 
 ## Tecnologias utilizadas
 
 - **Spring MVC**
 - **Spring Security**
 - **Spring Data JPA**
-- **Thymeleaf**
-- **JavaScript & CSS**
 - **Maven**
 - **MySQL**
 
-## Funcionalidades
-
-- Login com três tipos de usuários: **administrador**, **cliente** e **loja**.
-- CRUD de clientes e lojas (admin).
-- Cadastro de veículos com até 10 fotos (loja).
-- Página pública com listagem e filtro por modelo.
-- Propostas de compra por clientes autenticados.
-- Análise e resposta da loja com envio de e-mails automáticos.
-- Internacionalização (Português e Inglês).
-- Validações de formulário e tratamento de erros com mensagens amigáveis.
 
 ## Tipos de Usuário
 
@@ -38,14 +26,6 @@ O sistema permite que clientes façam propostas para veículos cadastrados por l
 | Loja        | Cadastro/listagem de veículos, análise de propostas                    |
 | Cliente     | Propostas de compra, listagem de suas propostas                        |
 
-## Internacionalização
-
-Disponível em dois idiomas:
-- Português (`pt_BR`)
-- Inglês (`en_US`)
-
-A troca de idioma pode ser feita via ícones na interface.
-
 ## Como rodar o projeto
 
 1. Clone o repositório;
@@ -54,4 +34,4 @@ A troca de idioma pode ser feita via ícones na interface.
 - $env:MYSQL_PASSWORD="sua_senha"
 4. Compile e execute com Maven:
     `mvn spring-boot:run`
-5. Acesse: http://localhost:8080
+5. Acesse pelo seu testador de API com a base: http://localhost:8080/api
